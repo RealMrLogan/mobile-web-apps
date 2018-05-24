@@ -1,4 +1,4 @@
-html, body {
+html, body, p {
   margin: 0;
   padding: 0;
 }
@@ -35,10 +35,25 @@ h4#currentLocation {
 
 .restSection {
   width: 100%;
-  flex-direction: row;
   margin-bottom: 1vh;
-  background-color: rgb(161, 145, 139);
   transition: .5s;
+}
+
+.overview {
+  background-color: rgb(161, 145, 139);
+  flex-direction: row;
+  transition: .5s;
+}
+
+.overview:active {
+  background-color: blue;
+}
+
+.panel {
+    padding: 0 18px;
+    background-color: white;
+    display: none;
+    overflow: hidden;
 }
 
 .logo {

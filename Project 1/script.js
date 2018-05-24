@@ -12,30 +12,28 @@
 </section>
 * Also given appropriate class names.
 *****************/
-function createRestaurant(logo, name) {
+function createRestaurant(logo, name, vicinity) {
   // creates a new section
   let restaurantSection = document.createElement('SECTION');
   restaurantSection.className = "restSection container";
-  restaurantSection.ontouchstart = () => {
-    // this.style.width = '90%';
-    restaurantSection.style.backgroundColor = 'white';
-  };
-  restaurantSection.ontouchend = () => {
-    restaurantSection.style.backgroundColor = 'rgb(161, 145, 139)';
 
-    let cancel = this.ontouchcancel;
-    if (cancel) {return;}
-    console.log('You touched '+restaurantSection.children[1].children[0].innerHTML);
+  let overviewDiv = createOverview(logo, name);
+  let detailsDiv = createDetails(vicinity);
 
-  };
+  restaurantSection.appendChild(overviewDiv);
+  restaurantSection.appendChild(detailsDiv);
 
+  return restaurantSection;
+}
+
+function createOverview(logo, name) { // returns a DIV element w/ logo and name
   // creates a DIV for the logo
   let imgDiv = document.createElement('DIV');
   imgDiv.className = "logo";
   let img = document.createElement('IMG');
   img.src = logo;
   imgDiv.appendChild(img);
-  restaurantSection.appendChild(imgDiv);
+  // restaurantSection.appendChild(imgDiv);
 
   // creates a DIV for the name
   let nameDiv = document.createElement('DIV');
@@ -45,11 +43,57 @@ function createRestaurant(logo, name) {
   restName.innerHTML = name;
   nameDiv.appendChild(restName);
 
-  // add the section to the main list so it can be displayed
-  restaurantSection.appendChild(nameDiv);
-  return restaurantSection;
+  // puts them inside a DIV
+  let overview = document.createElement('DIV');
+  overview.className = "container overview";
+  overview.appendChild(imgDiv);
+  overview.appendChild(nameDiv);
+
+  overview.ontouchstart = () => {
+    // this.style.width = '90%';
+    overview.style.backgroundColor = 'white';
+  };
+  overview.ontouchend = () => {
+    overview.style.backgroundColor = 'rgb(161, 145, 139)';
+
+    let cancel = this.ontouchcancel;
+    if (cancel) {return;}
+    console.log('You touched '+overview.children[1].children[0].innerHTML);
+  };
+
+  return overview;
 }
 
+function createDetails(vicinity) {
+  // add all the information for the accordian
+  let accordianDiv = document.createElement('DIV');
+  accordianDiv.className = "panel";
+  let address = document.createElement('P');
+  address.innerHTML = vicinity;
+  accordianDiv.appendChild(address);
+
+  return accordianDiv;
+}
+/*****************************/
+var acc = document.getElementsByClassName("overview");
+var i;
+
+for (i = 0; i < acc.length; i++) {
+    acc[i].addEventListener("click", function() {
+        /* Toggle between adding and removing the "active" class,
+        to highlight the button that controls the panel */
+        this.classList.toggle("active");
+
+        /* Toggle between hiding and showing the active panel */
+        var panel = this.nextElementSibling;
+        if (panel.style.display === "block") {
+            panel.style.display = "none";
+        } else {
+            panel.style.display = "block";
+        }
+    });
+}
+/*******************************/
 /******************
 * Find a word in a given string
 * s = string to be searched
@@ -98,17 +142,17 @@ function callback(results, status) { // gets places
   if(status == google.maps.places.PlacesServiceStatus.OK) {
     for (let i = 0; i < results.length; i++) {
       if (wordInString(results[i].name, 'subway')) {
-        myFoodList.appendChild(createRestaurant("res/subway.png", results[i].name));
+        myFoodList.appendChild(createRestaurant("res/subway.png", results[i].name, results[i].vicinity));
       } else if (wordInString(results[i].name, "mcdonald's")) {
-        myFoodList.appendChild(createRestaurant("res/mcdonalds.png", results[i].name));
+        myFoodList.appendChild(createRestaurant("res/mcdonalds.png", results[i].name, results[i].vicinity));
       } else if (wordInString(results[i].name, "domino's")) {
-        myFoodList.appendChild(createRestaurant("res/dominos.png", results[i].name));
+        myFoodList.appendChild(createRestaurant("res/dominos.png", results[i].name, results[i].vicinity));
       } else if (wordInString(results[i].name, "pizza hut")) {
-        myFoodList.appendChild(createRestaurant("res/pizzahut.png", results[i].name));
+        myFoodList.appendChild(createRestaurant("res/pizzahut.png", results[i].name, results[i].vicinity));
       } else if (wordInString(results[i].name, "pizza")) {
-        myFoodList.appendChild(createRestaurant("res/pizza.png", results[i].name));
+        myFoodList.appendChild(createRestaurant("res/pizza.png", results[i].name, results[i].vicinity));
       } else if (wordInString(results[i].name, "taco bell")) {
-        myFoodList.appendChild(createRestaurant("res/tacobell.png", results[i].name));
+        myFoodList.appendChild(createRestaurant("res/tacobell.png", results[i].name, results[i].vicinity));
       } else {
         myFoodList.appendChild(createRestaurant("res/default.png", results[i].name));
       }
