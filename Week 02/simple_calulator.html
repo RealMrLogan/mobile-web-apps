@@ -1,0 +1,48 @@
+<!doctype html>
+<html>
+
+<head>
+  <title>Simple Calculator</title>
+  <script>
+    function add() {
+      let num1 = parseFloat(document.getElementById("first#").value);
+      let num2 = parseFloat(document.getElementById("second#").value);
+      let result = num1 + num2;
+      document.getElementById("result").innerHTML = result;
+    }
+    function subtract(){
+      let num1 = parseFloat(document.getElementById("first#").value);
+      let num2 = parseFloat(document.getElementById("second#").value);
+      let result = num1 - num2;
+      document.getElementById("result").innerHTML = result;
+    }
+    function divide(){
+      let num1 = parseFloat(document.getElementById("first#").value);
+      let num2 = parseFloat(document.getElementById("second#").value);
+      if (num2 === 0) { //check for type
+        document.getElementById("result").innerHTML = "Cannot divide by 0";
+      } else {
+        let result = num1 / num2;
+        document.getElementById("result").innerHTML = result;
+      }
+    }
+  </script>
+  <style>
+  </style>
+</head>
+
+<body>
+  <section>
+    <div>
+      <input type="number" id="first#" />
+      <input type="number" id="second#" />
+    </div>
+    <button id="addition" onclick="add()">+</button>
+    <button id="subtraction" onclick="subtract()">-</button>
+    <button id="division" onclick="divide()">/</button>
+    Result:
+    <span id="result"></span>
+  </section>
+</body>
+
+</html>

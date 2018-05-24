@@ -1,0 +1,33 @@
+<!doctype html>
+<html>
+  <head>
+    <title>First Event</title>
+    <script>
+      function showCongratulations(theButtonClicked){
+      document.getElementById("result_display").innerHTML = "Congratulations, you did it!"
+      theButtonClicked.innerHTML = "Click Me Again!";
+      }
+    </script>
+
+    <style>
+      body {
+        color: white;
+        background-color: DarkSlateBlue;
+      }
+      #result_display {
+        background-color: gray;
+        width: 300px;
+        height: 150px;
+        position: relative;
+        top: 10px;
+        left: 10px;
+        padding: 10px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <button onclick="showCongratulations(this)">Click Me!</button>
+    <section id="result_display"></section>
+  </body>
+</html>

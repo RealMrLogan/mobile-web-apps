@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="en-US">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>My First Project</title>
+  <link rel="stylesheet" media="screen" type="text/css" href="style.css">
+</head>
+
+<body onload="startGame()">
+  <button onmousedown="moveUp()" onmouseup="stopMove()" ontouchstart="moveUp()" ontouchend="stopMove()">UP</button>
+  <button onmousedown="moveDown()" onmouseup="stopMove()" ontouchstart="moveDown()" ontouchend="stopMove()">DOWN</button>
+  <button onmousedown="moveLeft()" onmouseup="stopMove()" ontouchstart="moveLeft()" ontouchend="stopMove()">LEFT</button>
+  <button onmousedown="moveRight()" onmouseup="stopMove()" ontouchstart="moveRight()" ontouchend="stopMove()">RIGHT</button>
+</body>
+
+<script type="text/javascript" src="script.js"></script>
+</html>

@@ -1,0 +1,160 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Better Calculator</title>
+
+  <style>
+    :root {
+      --buttonWidth: 44px;
+      --width: calc(var(--buttonWidth)*4);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    .calcBody {
+      max-width: var(--width);
+    }
+
+    .calcBody>input {
+      width: 100%;
+      height: var(--buttonWidth);
+      font-size: calc(var(--buttonWidth)*.8);
+    }
+
+    .calcButtons {
+      display: flex;
+      flex-wrap: wrap;
+    }
+
+    .calcButtons button {
+      margin: 0;
+      width: var(--buttonWidth);
+      height: var(--buttonWidth);
+    }
+
+    button.span {
+      flex: 1 0 calc(var(--buttonWidth) * 1.4);
+    }
+  </style>
+</head>
+
+<body>
+  <div class="calcBody">
+    <input type="text" id="calcInput" disabled>
+    <div class="calcButtons">
+      <button onclick="Calculator.buttonClicked(this)" id="mem" class="span">M</button>
+      <button onclick="Calculator.buttonClicked(this)" id="clear" class="span">C</button>
+      <button onclick="Calculator.buttonClicked(this)" id="div">/</button>
+      <button onclick="Calculator.buttonClicked(this)" id="seven">7</button>
+      <button onclick="Calculator.buttonClicked(this)" id="eight">8</button>
+      <button onclick="Calculator.buttonClicked(this)" id="nine">9</button>
+      <button onclick="Calculator.buttonClicked(this)" id="multiply">X</button>
+      <button onclick="Calculator.buttonClicked(this)" id="four">4</button>
+      <button onclick="Calculator.buttonClicked(this)" id="five">5</button>
+      <button onclick="Calculator.buttonClicked(this)" id="six">6</button>
+      <button onclick="Calculator.buttonClicked(this)" id="subtract">-</button>
+      <button onclick="Calculator.buttonClicked(this)" id="one">1</button>
+      <button onclick="Calculator.buttonClicked(this)" id="two">2</button>
+      <button onclick="Calculator.buttonClicked(this)" id="three">3</button>
+      <button onclick="Calculator.buttonClicked(this)" id="plus">+</button>
+      <button onclick="Calculator.buttonClicked(this)" id="zero" class="span">0</button>
+      <button onclick="Calculator.buttonClicked(this)" id="decimal">.</button>
+      <button onclick="Calculator.buttonClicked(this)" id="equal">=</button>
+    </div>
+  </div>
+</body>
+<script>
+  const Calculator = {
+    num1: 0,
+    num2: 0,
+    operation: "",
+    result: 0,
+    inputOutput: document.getElementById("calcInput"),
+    clear: function() {
+      // this.inputOutput.reset();
+      this.inputOutput.value = "";
+    },
+    add: function() {
+      this.num1 = parseInt(this.inputOutput.value);
+      this.operation = "+";
+    },
+    subtract: function() {
+      this.num1 = parseInt(this.inputOutput.value);
+      this.operation = "-";
+    },
+    multiply: function() {
+      this.num1 = parseInt(this.inputOutput.value);
+      this.operation = "*";
+    },
+    divide: function() {
+      this.num1 = parseInt(this.inputOutput.value);
+      this.operation = "/";
+    },
+    equals: function() {
+      console.log("inside equals function");
+      this.num2 = parseInt(this.inputOutput.value);
+      switch (this.operation) {
+        case "+":
+          this.result = this.num1 + this.num2;
+          console.log("Num1(" + this.num1 + ") + Num2(" + this.num2 + ") = " + this.result);
+          break;
+        case "-":
+          this.result = this.num1 - this.num2;
+          console.log("Num1(" + this.num1 + ") - Num2(" + this.num2 + ") = " + this.result);
+          break;
+        case "*":
+          this.result = this.num1 * this.num2;
+          console.log("Num1(" + this.num1 + ") * Num2(" + this.num2 + ") = " + this.result);
+          break;
+        case "/":
+          this.result = this.num1 / this.num2;
+          console.log("Num1(" + this.num1 + ") / Num2(" + this.num2 + ") = " + this.result);
+          break;
+        default:
+      }
+      this.clear();
+      this.inputOutput.value = this.result;
+    },
+    buttonClicked: function(button) {
+      console.log(button.innerHTML);
+      let inputBox = this.inputOutput;
+
+      switch (button.innerHTML) {
+        case 'M':
+          break;
+        case 'C':
+          this.clear();
+          break;
+        case '/':
+          this.divide();
+          this.clear();
+          break;
+        case 'X':
+          this.multiply();
+          this.clear();
+          break;
+        case '-':
+          this.subtract();
+          this.clear();
+          break;
+        case '+':
+          this.add();
+          this.clear();
+          break;
+        case '=':
+          this.equals();
+          break;
+        default:
+          //if it made it to here it's a number
+          inputBox.value += button.innerHTML;
+      }
+    }
+  }
+</script>
+
+</html>

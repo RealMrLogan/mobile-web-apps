@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en-US">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Justice League</title>
+  <script>
+  const body = document.body; //reference to the entire body
+  const h1 = document.getElementById("title"); //grabs the header
+  const listItems = document.getElementsByTagName("li"); // grabs the entire list as a node list
+  const heroes = document.getElementsByClassName("hero"); // grabs all elements with the class name in a node list
+
+  // Query Selectors use CSS notation; can specify ver precise items
+  document.querySelector("#bats"); // grabs the element with an id
+  document.querySelectorAll(".hero"); // grabs all the elements with a class name
+  const wonderWomen = document.querySelector("li:last-child"); // return the last list item in the document
+  const ul = document.querySelector("ul#roster"); // references the <ul> list
+  const batman = ul.querySelector("li#bats"); // grabs the eleemnt inside the list with an id
+
+  const textNode = wonderWomen.firstChild; // grabs the child of the <li>, which is text
+  textNode.nodeValue; // the value of the node, which is the text
+  wonderWomen.textContent; // shortcut getting the same result
+
+  // get attributes
+  wonderWomen.getAttribute("class"); // returns "hero"
+                                     // if there is no attribute, it returns null
+
+  // set attributes
+  wonderWomen.setAttribute("class", "villian"); // the attribute you what to change and the new value
+  wonderWomen.getAttribute("class"); // returns "villian"
+  wonderWomen.setAttribute("id", "amazon"); // can also be used to add an attribute
+
+  wonderWomen.className = "hero"; // sets the className, but overwites all other classes
+  wonderWomen.classList.add("warrior"); // adds a new class
+  wonderWomen.classList.remove("warrior"); // removes the class
+  wonderWomen.classList.toggle("hero"); // adds the class if it is not there, removes it if is there
+  wonderWomen.classList.contains("hero"); // check is the class is there
+
+  // Dynamic Markup
+  const flash = document.createElement("li"); // creates new list element
+  const flashText = document.createTextNode("Flash"); // creates a text node
+  // right now they are two different nodes, we need to link them
+  flash.appendChild(flashText); // add the text to the list element
+  flash.textContent = "Flash"; // shortcut, does the same thing
+
+  heroes.appendChild(flash);
+  heroes.insertBefore(aquaman, wonderWomen);
+  heroes.appendChild(wonderWomen);
+  heroes.removeChild(aquaman);
+
+  // const h1 = document.getElementById("title");
+  const oldText = h1.firstChild;
+  const newText = document.createTextNode("Justice League Of America");
+  h1.replaceChild(newText, oldText); // changes the text from the old one to the new one
+
+  // change everything to the Suicide Squad
+  h1.innerHTML = "Suicide Squad";
+  heroes.innerHTML = "<li>Harley Quinn</li><li>Deadshot</li><li>Killer Croc</li><li>Echantress</li><li>Captain Boomerang</li><li>Katana</li>"
+
+  const superman = ul.querySelector("li#manOfSteel");
+  getComputedStyle("superman");
+
+  </script>
+  <style></style>
+</head>
+
+<body>
+  <header>
+    <h1 id="title">Justice League</h1>
+  </header>
+  <ul id="roster">
+    <li class="hero" id="manOfSteel">Superman</li>
+    <li class="vigilante hero" id="bats">Batman</li>
+    <li class="hero">Wonder Women</li>
+  </ul>
+</body>
+
+</html>

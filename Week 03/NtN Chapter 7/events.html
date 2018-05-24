@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en-US">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Events</title>
+
+  <style>
+    .highlight { background-color: red; }
+  </style>
+</head>
+
+<body>
+  <p id="click">Hello</p>
+  <p id="dblclick">Hello again</p>
+  <p id="once">A One Time Thing...</p>
+  <p> <a id="broken" href="https://sitepoint.com">Broken Link</a> </p>
+  <ul id="list">
+    <li>One</li>
+    <li>Two</li>
+    <li>Three</li>
+  </ul>
+</body>
+<script>
+  function doSomething(event) {
+    // console.log(event.target);
+  }
+  addEventListener("click", doSomething);
+
+  // mouse events
+  const clickParagraph = document.getElementById('click');
+  clickParagraph.addEventListener('click', () => console.log('click'));
+  clickParagraph.addEventListener('mousedown', () => console.log('down'));
+  clickParagraph.addEventListener('mouseup', () => console.log('up'));
+  function highlight(event) {
+    event.target.classList.toggle('highlight');
+  }
+  const dblclickParagraph = document.getElementById('dblclick');
+  dblclickParagraph.addEventListener('dblclick', highlight);
+
+  // keyboard events
+  addEventListener('keydown', highlight);
+  // addEventListener('keyup', (event) => console.log(`You stopped pressing the key on ${new Date}`));
+  addEventListener('keypress', (event) => console.log(`You pressed the ${event.key} character`));
+
+  addEventListener('keydown', (event) => console.log(`You pressed the ${event.key} character`));
+  addEventListener('keydown', (event) => { // checks for the CTRL key
+    if (event.key === 'c' && event.ctrlkey) {
+      console.log('Action canceled');
+    }
+  });
+  addEventListener('click', (event) => { // checks for a SHIFT key
+    if (event.shiftkey) {
+      console.log('A shifty click');
+    }
+  });
+
+  // touch Events
+  addEventListener('touchend', () => console.log('Touch Stopped'));
+  const onceParagraph = document.getElementById('once');
+  onceParagraph.addEventListener('click', remove);
+
+  function remove(event) {
+    console.log('Enjoy this while it lasts');
+    onceParagraph.style.backgroundColor = 'pink';
+    onceParagraph.removeEventListener('click', remove);
+  }
+
+  // Stopping default behavior
+  const brokenLink = document.getElementById('broken');
+  brokenLink.addEventListener('click', (event) => {
+    event.preventDefault();
+    console.log("Broken Link");
+  });
+
+  // event propagation
+
+</script>
+</html>
