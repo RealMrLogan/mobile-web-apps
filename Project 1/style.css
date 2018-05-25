@@ -4,8 +4,10 @@ html, body, p {
 }
 
 header {
-  background-color: rgb(149, 218, 235);
+  background-color: black;
+  color: white;
   margin-bottom: 1vh;
+  font-family: 'Sura';
 }
 
 h1 {
@@ -13,11 +15,11 @@ h1 {
   margin: 0;
 }
 
-h4#currentLocation {
+#currentLocation {
+  padding-right: 10px;
+  padding-top: 5px;
   margin: 0;
   font-family: sans-serif;
-  font-style: normal;
-  font-weight: lighter;
   text-align: right;
 }
 
@@ -39,20 +41,51 @@ h4#currentLocation {
 }
 
 .accordian {
-  background-color: rgb(161, 145, 139);
+  background-color: #00cc7a;
   flex-direction: row;
-  transition: .2s;
+  transition: .1s; /* how fast the accordian moves down */
 }
 .active {
   background-color: #df1453;
 }
 
 .panel {
-    padding: 0 18px;
-    background-color: white;
-    display: none;
-    overflow: hidden;
-    transition: .5s;
+  width: 100%;
+  margin: auto;
+  background-color: white;
+  display: none;
+  overflow: hidden;
+  transition: .5s;
+}
+
+.address {
+  padding-right: 5px;
+  text-align: right;
+  font-family: fantasy;
+}
+
+.reviewText {
+  padding: 5px 10px;
+  font-style: oblique;
+}
+
+.review {
+  margin: auto;
+  width: 93%;
+  border: 2px solid black;
+  height: 100px;
+  padding: 10px;
+  font-family: 'Sintony';
+}
+
+button {
+  width: 100%;
+  background-color: #8d0c35;
+  color: white;
+  font-family: 'Megrim';
+  font-size: 25px;
+  border: none;
+  padding: 10px;
 }
 
 .logo {
@@ -69,7 +102,8 @@ h4#currentLocation {
 .foodName {
   margin: 0;
   font-size: 20px;
-  font-family: 'Aclonica';
+  font-family: 'Vollkorn';
+  font-weight: bold;
 }
 
 img {

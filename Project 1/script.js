@@ -42,11 +42,9 @@ function createOverview(logo, name) { // returns a DIV element w/ logo and name
 
   overview.ontouchstart = () => {
     overview.style.transform = "translateY(4px)";
-    // overview.style.backgroundColor = 'white';
   };
   overview.ontouchend = () => {
-    // overview.style.backgroundColor = 'rgb(161, 145, 139)';
-    overview.style.transform = "translateY(-4px)";
+    overview.style.transform = "translateY(-1px)";
 
     // let cancel = this.ontouchcancel;
     // if (cancel) {return;}
@@ -67,12 +65,52 @@ function createOverview(logo, name) { // returns a DIV element w/ logo and name
 }
 
 function createDetails(vicinity) {
+  // take away ", [city]"
+  vicinity = vicinity.slice(0, vicinity.lastIndexOf(','));
+
   // add all the information for the accordian
   let accordianDiv = document.createElement('DIV');
   accordianDiv.className = "panel";
+
+  // add the address
   let address = document.createElement('P');
   address.innerHTML = vicinity;
+  address.className = "address";
   accordianDiv.appendChild(address);
+
+  // add review form
+  let review = document.createElement('TEXTAREA');
+  review.className = "review";
+  let reviewText = document.createElement('P');
+  reviewText.className = "reviewText";
+  reviewText.innerHTML = "What do you think of this place?";
+  accordianDiv.appendChild(reviewText);
+  accordianDiv.appendChild(review);
+
+  // add the submit button
+  let button = document.createElement('BUTTON');
+  button.innerHTML = "Add Review";
+  accordianDiv.appendChild(button);
+  button.ontouchstart = () => {
+    button.style.transform = "translateY(4px)";
+  };
+  button.ontouchend = () => {
+    // create accordian effect
+    button.style.transform = "translateY(-1px)";
+
+    const panel = button.parentElement;
+    panel.previousSibling.classList.toggle("active");
+
+    if (panel.style.display === "block") {
+        panel.style.display = "none";
+    } else {
+        panel.style.display = "block";
+    }
+
+    // clear the value when adding the review
+    const textArea = button.previousSibling;
+    textArea.value = '';
+  };
 
   return accordianDiv;
 }
@@ -136,6 +174,10 @@ function callback(results, status) { // gets places
         myFoodList.appendChild(createRestaurant("res/pizza.png", results[i].name, results[i].vicinity));
       } else if (wordInString(results[i].name, "taco bell")) {
         myFoodList.appendChild(createRestaurant("res/tacobell.png", results[i].name, results[i].vicinity));
+      } else if (wordInString(results[i].name, "wendy's")) {
+        myFoodList.appendChild(createRestaurant("res/wendys.png", results[i].name, results[i].vicinity));
+      } else if (wordInString(results[i].name, "arctic circle")) {
+        myFoodList.appendChild(createRestaurant("res/arcticcircle.png", results[i].name, results[i].vicinity));
       } else {
         myFoodList.appendChild(createRestaurant("res/default.png", results[i].name, results[i].vicinity));
       }
