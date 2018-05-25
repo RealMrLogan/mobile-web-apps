@@ -36,17 +36,15 @@ h4#currentLocation {
 .restSection {
   width: 100%;
   margin-bottom: 1vh;
-  transition: .5s;
 }
 
-.overview {
+.accordian {
   background-color: rgb(161, 145, 139);
   flex-direction: row;
-  transition: .5s;
+  transition: .2s;
 }
-
-.overview:active {
-  background-color: blue;
+.active {
+  background-color: #df1453;
 }
 
 .panel {
@@ -54,6 +52,7 @@ h4#currentLocation {
     background-color: white;
     display: none;
     overflow: hidden;
+    transition: .5s;
 }
 
 .logo {

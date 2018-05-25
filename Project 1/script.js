@@ -1,16 +1,8 @@
 /*jshint esversion: 6*/
 
 /****************
-* Creates a restaurant section in this format:
-<section>
-  <div>
-    <img> // the logo
-  </div>
-  <div>
-    <p> // name of the restaurant
-  </div>
-</section>
-* Also given appropriate class names.
+* Creates a restaurant section in this format
+* Also gives appropriate class names
 *****************/
 function createRestaurant(logo, name, vicinity) {
   // creates a new section
@@ -33,7 +25,6 @@ function createOverview(logo, name) { // returns a DIV element w/ logo and name
   let img = document.createElement('IMG');
   img.src = logo;
   imgDiv.appendChild(img);
-  // restaurantSection.appendChild(imgDiv);
 
   // creates a DIV for the name
   let nameDiv = document.createElement('DIV');
@@ -45,20 +36,31 @@ function createOverview(logo, name) { // returns a DIV element w/ logo and name
 
   // puts them inside a DIV
   let overview = document.createElement('DIV');
-  overview.className = "container overview";
+  overview.className = "container accordian";
   overview.appendChild(imgDiv);
   overview.appendChild(nameDiv);
 
   overview.ontouchstart = () => {
-    // this.style.width = '90%';
-    overview.style.backgroundColor = 'white';
+    overview.style.transform = "translateY(4px)";
+    // overview.style.backgroundColor = 'white';
   };
   overview.ontouchend = () => {
-    overview.style.backgroundColor = 'rgb(161, 145, 139)';
+    // overview.style.backgroundColor = 'rgb(161, 145, 139)';
+    overview.style.transform = "translateY(-4px)";
 
-    let cancel = this.ontouchcancel;
-    if (cancel) {return;}
+    // let cancel = this.ontouchcancel;
+    // if (cancel) {return;}
     console.log('You touched '+overview.children[1].children[0].innerHTML);
+
+    // create accordian effect
+    overview.classList.toggle("active");
+    const panel = overview.nextSibling;
+
+    if (panel.style.display === "block") {
+        panel.style.display = "none";
+    } else {
+        panel.style.display = "block";
+    }
   };
 
   return overview;
@@ -74,26 +76,7 @@ function createDetails(vicinity) {
 
   return accordianDiv;
 }
-/*****************************/
-var acc = document.getElementsByClassName("overview");
-var i;
 
-for (i = 0; i < acc.length; i++) {
-    acc[i].addEventListener("click", function() {
-        /* Toggle between adding and removing the "active" class,
-        to highlight the button that controls the panel */
-        this.classList.toggle("active");
-
-        /* Toggle between hiding and showing the active panel */
-        var panel = this.nextElementSibling;
-        if (panel.style.display === "block") {
-            panel.style.display = "none";
-        } else {
-            panel.style.display = "block";
-        }
-    });
-}
-/*******************************/
 /******************
 * Find a word in a given string
 * s = string to be searched
@@ -117,7 +100,7 @@ function getCoor(position) {
 function initialize() {
   navigator.geolocation.getCurrentPosition(getCoor);
   // console.log(pos);
-  let center = new google.maps.LatLng(43.817695, -111.789668);
+  let center = new google.maps.LatLng(43.672184, -111.914880);
   let map = new google.maps.Map(document.getElementById('map'), {
     center: center,
     zoom: 13
@@ -154,11 +137,10 @@ function callback(results, status) { // gets places
       } else if (wordInString(results[i].name, "taco bell")) {
         myFoodList.appendChild(createRestaurant("res/tacobell.png", results[i].name, results[i].vicinity));
       } else {
-        myFoodList.appendChild(createRestaurant("res/default.png", results[i].name));
+        myFoodList.appendChild(createRestaurant("res/default.png", results[i].name, results[i].vicinity));
       }
     }
     console.log(results[1]);
-
   }
 }
 
