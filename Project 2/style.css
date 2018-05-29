@@ -14,5 +14,29 @@ h2, h3, p {
 }
 
 li {
+  display: flex;
   margin: 20px 0;
+}
+
+img {
+  float: left;
+  width: 35vw;
+  height: auto;
+}
+
+h2 {
+  font-size: 18px;
+}
+
+.director {
+
+}
+
+.rated {
+  font-size: 16px;
+  font-style: italic;
+}
+
+.plot {
+
 }
