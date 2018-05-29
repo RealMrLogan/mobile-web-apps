@@ -10,7 +10,10 @@ function createMovie(movie) {
   section.appendChild(createImg(movie.Poster));
   section.appendChild(createDirector(movie.Director));
   section.appendChild(createRated(movie.Rated));
+  section.appendChild(createReleaseDate(movie.Released));
+  section.appendChild(createActors(movie.Actors));
   section.appendChild(createPlot(movie.Plot));
+  confirm(section);
   li.appendChild(section);
   return li;
 }
@@ -44,6 +47,20 @@ function createRated(rated) {
   return rating;
 }
 
+function createReleaseDate(date) {
+  let releaseDate = document.createElement('p');
+  releaseDate.className = "releaseDate";
+  releaseDate.innerHTML = `Released on: ${date}`;
+  return releaseDate;
+}
+
+function createActors(actors) {
+  let myActors = document.createElement('p');
+  myActors.className = "actors";
+  myActors.innerHTML = `Actors: ${actors}`;
+  return myActors;
+}
+
 function createPlot(plot) {
   let myPlot = document.createElement('P');
   myPlot.className = "plot";
@@ -56,11 +73,9 @@ $("button").click(function(){
 
   let movieTitle = document.getElementById('input').value;
   let myMovieTitle = encodeURI(movieTitle);
-  console.log(myMovieTitle);
   $.getJSON("http://www.omdbapi.com/?apikey=fcef2b9e&t="+myMovieTitle, function(result){
       console.dir(result);
       if (result.Error) { console.log(result.Error); return; }
       listOfMovies.appendChild(createMovie(result));
-      // listOfMovies.lastChild.innerHTML = `<h2>${result.Title}</h2>`;
   });
 });

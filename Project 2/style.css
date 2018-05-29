@@ -2,7 +2,7 @@
 @import url('https://fonts.googleapis.com/css?family=Saira+Extra+Condensed');
 @import url('https://fonts.googleapis.com/css?family=Mate');
 
-html, body {
+html, body, h2, h3 {
   padding: 0;
   margin: 0;
 }
@@ -13,8 +13,8 @@ ul {
   list-style-type: none;
 }
 
-h2, h3, p {
-  margin: 0;
+p {
+  margin: 5px 0;
 }
 
 li {
@@ -56,6 +56,9 @@ h2 {
   font-size: 16px;
   font-style: italic;
   width: 100vw;
+}
+
+.actors {
   padding-bottom: 10px;
   border-bottom: 5px double black;
 }
