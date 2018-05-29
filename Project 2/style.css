@@ -1,3 +1,7 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto:300');
+@import url('https://fonts.googleapis.com/css?family=Saira+Extra+Condensed');
+@import url('https://fonts.googleapis.com/css?family=Mate');
+
 html, body {
   padding: 0;
   margin: 0;
@@ -14,7 +18,7 @@ h2, h3, p {
 }
 
 li {
-  display: flex;
+  height: auto;
   margin: 20px 0;
 }
 
@@ -22,21 +26,43 @@ img {
   float: left;
   width: 35vw;
   height: auto;
+  margin: auto;
+  padding-right: 10px;
+}
+
+.titleDiv {
+  text-align: center;
+  padding: 5px;
+  font-family: 'Roboto', sans-serif;
 }
 
 h2 {
   font-size: 18px;
 }
 
-.director {
+.descriptionDiv {
+  margin: 0 2.5%;
+  width: 60%;
+}
 
+/* TODO: make the element as high as the picture if it is the longest element */
+
+.director {
+  font-size: 20px;
+  font-family: 'Saira Extra Condensed', sans-serif;
 }
 
 .rated {
   font-size: 16px;
   font-style: italic;
+  width: 100vw;
+  padding-bottom: 10px;
+  border-bottom: 5px double black;
 }
 
 .plot {
-
+  padding-right: 10px;
+  margin-top: 10px;
+  font-family: 'Mate', serif;
+  text-align: justify;
 }
