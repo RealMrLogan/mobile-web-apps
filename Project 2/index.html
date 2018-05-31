@@ -6,15 +6,32 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>My Movies</title>
   <link rel="stylesheet" type="text/css" href="style.css" />
+  <!-- <link rel="stylesheet" type="text/css" href="https://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.min.css"> -->
+  <!-- <script type="text/javascript" src="https://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.min.js"></script> -->
   <script defer type="text/javascript" src="script.js"></script>
   <!-- use OMDb API -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 </head>
 
 <body>
-  Movie title <input type="text" id="input" />
-  <button>Get Movie</button>
-  <ul id="movieList"></ul>
+  <main id="myMain">
+    Movie title <input type="text" id="input" />
+    <button id="getPreview">Check Movie</button>
+    <ul id="movieList"></ul>
+  </main>
+
+  <!-- The Modal -->
+  <div id="myModal" class="modal">
+    <!-- Modal content -->
+    <div class="modal-content">
+      <p>Is this the movie you want?</p>
+      <span class="close">&times;</span>
+      <div id="myModalContent"></div>
+      <button id="yesButton">Yes</button>
+      <button id="noButton">No</button>
+    </div>
+  </div>
+
 </body>
 
 </html>

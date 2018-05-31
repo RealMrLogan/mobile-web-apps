@@ -1,7 +1,8 @@
 /*jshint esversion: 6 */
-window.addEventListener('load', function() {
-});
 
+function addModalStuff() {
+
+}
 function createMovie(movie) {
   let li = document.createElement('li');
   li.appendChild(createTitle(movie.Title, movie.Year));
@@ -13,7 +14,6 @@ function createMovie(movie) {
   section.appendChild(createReleaseDate(movie.Released));
   section.appendChild(createActors(movie.Actors));
   section.appendChild(createPlot(movie.Plot));
-  confirm(section);
   li.appendChild(section);
   return li;
 }
@@ -68,7 +68,12 @@ function createPlot(plot) {
   return myPlot;
 }
 
-$("button").click(function(){
+const btn = document.getElementById('getPreview');
+btn.onclick = function() {
+  // When the user clicks the button, open the modal and blur the background
+  const main = document.getElementById('myMain');
+  modal.style.display = "block";
+  myMain.className = "main";
   let listOfMovies = document.getElementById('movieList');
 
   let movieTitle = document.getElementById('input').value;
@@ -76,6 +81,28 @@ $("button").click(function(){
   $.getJSON("http://www.omdbapi.com/?apikey=fcef2b9e&t="+myMovieTitle, function(result){
       console.dir(result);
       if (result.Error) { console.log(result.Error); return; }
-      listOfMovies.appendChild(createMovie(result));
+      document.getElementById('myModalContent').innerHTML = createMovie(result).outerHTML;
+      // listOfMovies.appendChild(createMovie(result));
   });
-});
+
+  const yes = document.getElementById('yesButton');
+  const no = document.getElementById('noButton');
+};
+
+// Get the <span> element that closes the modal
+const span = document.getElementsByClassName("close")[0];
+// When the user clicks on <span> (x), close the modal
+span.onclick = function() {
+    modal.style.display = "none";
+    myMain.className = "";
+};
+
+// Get the modal
+const modal = document.getElementById('myModal');
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+        myMain.className = "";
+    }
+};
