@@ -79,14 +79,20 @@ btn.onclick = function() {
   let movieTitle = document.getElementById('input').value;
   let myMovieTitle = encodeURI(movieTitle);
   $.getJSON("http://www.omdbapi.com/?apikey=fcef2b9e&t="+myMovieTitle, function(result){
-      console.dir(result);
-      if (result.Error) { console.log(result.Error); return; }
-      document.getElementById('myModalContent').innerHTML = createMovie(result).outerHTML;
-      // listOfMovies.appendChild(createMovie(result));
-  });
+    console.dir(result);
+    if (result.Error) { console.log(result.Error); return; }
+    document.getElementById('myModalContent').innerHTML = createMovie(result).outerHTML;
 
-  const yes = document.getElementById('yesButton');
-  const no = document.getElementById('noButton');
+    document.getElementById('yesButton').onclick = function() {
+       listOfMovies.appendChild(createMovie(result));
+       modal.style.display = "none";
+       myMain.className = "";
+     };
+     document.getElementById('noButton').onclick = function() {
+        modal.style.display = "none";
+        myMain.className = "";
+    };
+  });
 };
 
 // Get the <span> element that closes the modal
