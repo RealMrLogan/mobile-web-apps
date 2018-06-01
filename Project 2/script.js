@@ -78,7 +78,7 @@ btn.onclick = function() {
 
   let movieTitle = document.getElementById('input').value;
   let myMovieTitle = encodeURI(movieTitle);
-  $.getJSON("http://www.omdbapi.com/?apikey=fcef2b9e&t="+myMovieTitle, function(result){
+  $.getJSON("https://www.omdbapi.com/?apikey=fcef2b9e&t="+myMovieTitle, function(result){
     console.dir(result);
     if (result.Error) { console.log(result.Error); return; }
     document.getElementById('myModalContent').innerHTML = createMovie(result).outerHTML;
