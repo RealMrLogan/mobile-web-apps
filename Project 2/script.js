@@ -1,8 +1,5 @@
 /*jshint esversion: 6 */
 
-function addModalStuff() {
-
-}
 function createMovie(movie) {
   let li = document.createElement('li');
   li.appendChild(createTitle(movie.Title, movie.Year));
@@ -68,25 +65,25 @@ function createPlot(plot) {
   return myPlot;
 }
 
-const btn = document.getElementById('getPreview');
-btn.onclick = function() {
+document.getElementById('getPreview').onclick = function() {
   // When the user clicks the button, open the modal and blur the background
   const main = document.getElementById('myMain');
   modal.style.display = "block";
-  myMain.className = "main";
-  let listOfMovies = document.getElementById('movieList');
+  myMain.className = "blur";
 
-  let movieTitle = document.getElementById('input').value;
+  let title = document.getElementById('input');
+  let movieTitle = title.value;
+  title.value = "";
   let myMovieTitle = encodeURI(movieTitle);
   $.getJSON("https://www.omdbapi.com/?apikey=fcef2b9e&t="+myMovieTitle, function(result){
     console.dir(result);
     if (result.Error) { console.log(result.Error); return; }
-    document.getElementById('myModalContent').innerHTML = createMovie(result).outerHTML;
+    const newMovie = document.getElementById('myModalContent');
+    newMovie.innerHTML = createMovie(result).outerHTML;
 
     document.getElementById('yesButton').onclick = function() {
-       listOfMovies.appendChild(createMovie(result));
        modal.style.display = "none";
-       myMain.className = "";
+       sortMovie(newMovie.children[0]);
      };
      document.getElementById('noButton').onclick = function() {
         modal.style.display = "none";
@@ -94,6 +91,31 @@ btn.onclick = function() {
     };
   });
 };
+
+function sortMovie(newMovie) {
+  const sortOptions = document.getElementById('sortSection');
+  sortOptions.style.display = "block";
+  const like = document.getElementById('likedButton');
+  const meh = document.getElementById('mehButton');
+  const hate = document.getElementById('hatedButton');
+  console.dir(newMovie);
+
+  like.onclick = function() {
+    document.getElementById('likedMovieList').appendChild(newMovie);
+    document.getElementById('sortSection').style.display = "none";
+    myMain.className = "";
+  };
+  meh.onclick = function() {
+    document.getElementById('mehMovieList').appendChild(newMovie);
+    document.getElementById('sortSection').style.display = "none";
+    myMain.className = "";
+  };
+  hate.onclick = function() {
+    document.getElementById('hatedMovieList').appendChild(newMovie);
+    document.getElementById('sortSection').style.display = "none";
+    myMain.className = "";
+  };
+}
 
 // Get the <span> element that closes the modal
 const span = document.getElementsByClassName("close")[0];

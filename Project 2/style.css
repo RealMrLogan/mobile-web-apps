@@ -15,11 +15,21 @@ ul, #myModalContent{
   list-style-type: none;
 }
 
-.main {
+li {
+  /* background-color: black;
+  color: white; */
+}
+
+.blur {
   filter: blur(2px);
 }
 
+main {
+  background-color: black;
+}
+
 #mainDiv {
+  background-color: white;
   text-align: center;
   border: 5px solid black;
   padding: 10px;
@@ -27,7 +37,7 @@ ul, #myModalContent{
 
 #inputText {
   font-family: 'Roboto', sans-serif;
-  font-size: 40px;
+  font-size: 28px;
 }
 
 input {
@@ -48,7 +58,7 @@ input {
 }
 
 /* The Modal (background) */
-.modal {
+.modal, #sortSection {
   display: none; /* Hidden by default */
   position: fixed; /* Stay in place */
   z-index: 1; /* Sit on top */
@@ -78,6 +88,61 @@ input {
   float: right;
   font-size: 40px;
   font-weight: bold;
+}
+
+#sortSection {
+  text-align: center;
+}
+
+.welcomeButton {
+  width: 80%;
+  margin: 5% 0;
+  padding: 10% 2%;
+  font-family: 'Laila', serif;
+  font-size: 40px;
+  border: none;
+  color: white;
+}
+
+#likedButton {
+  background-color: #1f7a1f;
+}
+
+.listTitleText {
+  padding-left: 10px;
+  font-family: 'Roboto', sans-serif;
+  font-style: italic;
+  font-size: 25px;
+  border-bottom: 5px double black;
+}
+
+#likedMovieList {
+  background-color: #99ffbb;
+}
+
+#mehButton {
+  background-color: #dfdf20;
+}
+
+#mehMovieList {
+  background-color: #ffff99;
+}
+
+#hatedButton {
+  background-color: #cc0000;
+}
+
+#hatedMovieList {
+  background-color: #ffb3b3;
+}
+
+#welcomeText {
+  background-color: white;
+  font-family: 'Roboto', sans-serif;
+  font-size: 28px;
+  border-radius: 25px;
+  box-shadow: inset 0 0 30px rgba(0,0,0,0.4);
+  padding: 10px 0;
 }
 
 .border {
@@ -149,7 +214,7 @@ h2 {
 
 .actors {
   padding-bottom: 10px;
-  border-bottom: 5px double black;
+  border-bottom: 2px solid black;
   font-family: 'Gafata', sans-serif;
 }
 

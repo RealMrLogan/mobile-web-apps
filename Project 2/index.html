@@ -6,20 +6,33 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>My Movies</title>
   <link rel="stylesheet" type="text/css" href="style.css" />
-  <!-- <link rel="stylesheet" type="text/css" href="https://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.min.css"> -->
-  <!-- <script type="text/javascript" src="https://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.min.js"></script> -->
   <script defer type="text/javascript" src="script.js"></script>
   <!-- use OMDb API -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 </head>
 
 <body>
+  <section id="sortSection">
+    <p id="welcomeText">What did you think of it?</p>
+    <div id="likedMovie">
+      <button id="likedButton" class="welcomeButton"> I liked it</button>
+    </div>
+    <div id="mehMovie">
+      <button id="mehButton" class="welcomeButton">It was Meh</button>
+    </div>
+    <div id="hatedMovie">
+      <button id="hatedButton" class="welcomeButton">Never again</button>
+    </div>
+  </section>
+
   <main id="myMain">
     <div id="mainDiv">
-      <p id="inputText">Movie Title</p> <input type="text" id="input" /> <br />
+      <p id="inputText">What Movie Did You Watch?</p> <input type="text" id="input" /> <br />
       <button id="getPreview">Check Movie</button>
     </div>
-    <ul id="movieList"></ul>
+    <ul id="likedMovieList"><p class="listTitleText">Movies That You Liked</p></ul>
+    <ul id="mehMovieList"><p class="listTitleText">Movies That Were Meh</p></ul>
+    <ul id="hatedMovieList"><p class="listTitleText">Movies That You Hated</p></ul>
   </main>
 
   <!-- The Modal -->
