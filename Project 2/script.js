@@ -75,21 +75,36 @@ document.getElementById('getPreview').onclick = function() {
   let movieTitle = title.value;
   title.value = "";
   let myMovieTitle = encodeURI(movieTitle);
+  const myOptionsDiv = document.getElementById('myOptionsDiv');
+  const borders = document.getElementsByClassName('border');
+
   $.getJSON("https://www.omdbapi.com/?apikey=fcef2b9e&t="+myMovieTitle, function(result){
-    console.dir(result);
-    if (result.Error) { console.log(result.Error); return; }
     const newMovie = document.getElementById('myModalContent');
+    const confirmText = document.getElementById('confirmText');
+    if (result.Error) {
+      newMovie.innerHTML = "<p class='listTitleText' >Movie Not Found</p>";
+      myOptionsDiv.style.display = "none";
+      confirmText.style.display = "none";
+      borders[0].style.display = "none";
+      borders[1].style.display = "none";
+      return;
+    }
     newMovie.innerHTML = createMovie(result).outerHTML;
 
     document.getElementById('yesButton').onclick = function() {
        modal.style.display = "none";
        sortMovie(newMovie.children[0]);
      };
-     document.getElementById('noButton').onclick = function() {
+    document.getElementById('noButton').onclick = function() {
         modal.style.display = "none";
         myMain.className = "";
     };
   });
+
+  myOptionsDiv.style.display = "block";
+  confirmText.style.display = "block";
+  borders[0].style.display = "block";
+  borders[1].style.display = "block";
 };
 
 function sortMovie(newMovie) {
@@ -98,7 +113,6 @@ function sortMovie(newMovie) {
   const like = document.getElementById('likedButton');
   const meh = document.getElementById('mehButton');
   const hate = document.getElementById('hatedButton');
-  console.dir(newMovie);
 
   like.onclick = function() {
     document.getElementById('likedMovieList').appendChild(newMovie);
@@ -133,4 +147,17 @@ window.onclick = function(event) {
         modal.style.display = "none";
         myMain.className = "";
     }
+};
+// console.dir(document.getElementById('myMovieLists'));
+window.onunload = function() {
+  console.log("Window closed");
+  // const myMovieLists = document.getElementById('myMovieLists');
+  localStorage.setItem('myMovieLists', JSON.stringify(document.getElementById('myMovieLists').outerHTML));
+  console.dir(document.getElementById('myMovieLists'));
+};
+
+window.onload = function() {
+  console.log("Window loaded");
+  // document.getElementById('myMovieLists').innerHTML = JSON.parse(localStorage.getItem('myMovieLists'));
+  // console.dir(myMovieLists);
 };
