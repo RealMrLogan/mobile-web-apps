@@ -4,15 +4,26 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Title of Your Page</title>
+  <title>Errors</title>
   <script>
+  'use strict'; // starts strict mode if in a JS file
+    unicorn() // unicorn is never defined
+    function three(){ unicorn(); }
+    function two(){ three(); }
+    function one(){ two(); }
+    one(); // throws a stack trace to see where the root is
+
+    pi = 3.142; // warning, need to define "var"; It will be an error using strict mode
+                // Chrome won't display a warning
+
+    alert("This is a common form of debugging");
   </script>
   <style>
   </style>
 </head>
 
 <body>
-  <p>Hello</p>
+  <p>There are so many errors in this page, it's rediculous.</p>
 </body>
 
 </html>
