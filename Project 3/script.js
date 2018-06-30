@@ -1,9 +1,31 @@
 /*jshint esversion: 6 */
 window.onload = function() {
+  // mySpeciesList = JSON.parse(localStorage.getItem('speciesList'));
+  // myPlanetsList = JSON.parse(localStorage.getItem('planetsList'));
+  // if (!mySpeciesList) {
+  //   console.log('getting speciesList');
+  //   requestSpecies(1);
+  // }
+  // if (!myPlanetsList) {
+  //   console.log('getting planetsList');
+  //   requestPlanets(1);
+  // }
+
   requestSpecies(1);
   requestPlanets(1);
-  setTimeout(loadSpeciesDropdown, 1000); // since the HTTP request runs async, have this function wait for a second to load all the data
-  setTimeout(loadPlanetsDropdown, 1000); // same thing as above
+
+  // console.log("The speciesList has stuff in it: ");
+  // console.log(speciesList);
+  // console.log("The planetsList has stuff in it: ");
+  // console.log(planetsList);
+  setTimeout(loadSpeciesDropdown, 3000); // since the HTTP request runs async, have this function wait for a second to load all the data
+  setTimeout(loadPlanetsDropdown, 3000); // same thing as above
+};
+
+window.onunload = function() {
+  console.log('closing the browser');
+  localStorage.setItem('speciesList', JSON.stringify(speciesList));
+  localStorage.setItem('planetsList', JSON.stringify(planestsList));
 };
 
 function requestSpecies(pageNumber) { // recursive function so that it is not dependent on hard coding how many pages
@@ -49,6 +71,11 @@ function requestPlanets(pageNumber) { // recursive function so that it is not de
 }
 
 function loadSpeciesDropdown() {
+  console.log('organizing the Species');
+  console.log(speciesList);
+  // speciesList.sort(function(a, b){return speciesList[a].name - speciesList[b].name});
+  console.log(speciesList);
+
   console.log('loading the dropdown');
   for (let i = 0; i < speciesList.length; i++) {
     let speciesName = document.createElement('option');
@@ -69,11 +96,12 @@ function loadPlanetsDropdown() {
 document.getElementById('startGame').onclick = function() { // initialize the game
   console.log("started the game");
   const name = document.getElementById('name').value;
-  const dropdown = document.getElementById('speciesDropdown');
-  const species = dropdown.options[dropdown.selectedIndex].text;
-  const myPlayer = character(name, species);
-  console.log(`${myPlayer.getName()} ${myPlayer.getSpecies()}`);
-  console.log(planetsList);
+  const speciesDropdown = document.getElementById('speciesDropdown');
+  const planetsDropdown = document.getElementById('planetsDropdown');
+  const species = speciesDropdown.options[speciesDropdown.selectedIndex].text;
+  const planet = planetsDropdown.options[planetsDropdown.selectedIndex].text;
+  const myPlayer = character(name, species, planet);
+  console.log(`${myPlayer.getName()} ${myPlayer.getSpecies()} ${myPlayer.getPlanet()}`);
 };
 
 function welcome() {
@@ -81,13 +109,14 @@ function welcome() {
 }
 
 // Global variables
-const character = function (myName, mySpecies) {
+const character = function (myName, mySpecies, myPlanet) {
   let hp = 10;
   let damage = 2;
   let speed = 5;
   let shield = 10;
   const name = myName;
   const species = mySpecies;
+  const planet = myPlanet;
   return Object.create ({
     getHealth: () => hp,
     getDamage: () => damage,
@@ -95,6 +124,7 @@ const character = function (myName, mySpecies) {
     getShield: () => shield,
     getName: () => name,
     getSpecies: () => species,
+    getPlanet: () => planet,
 
     setHealth: (health) => {hp = health},
     setDamage: (dmg) => {damage = dmg},
