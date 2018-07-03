@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en-US">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Further Functions</title>
+  <script>
+    function square(x) {
+      return x*x;
+      // OR using cache
+      square.cache = square.cache || {};
+      if (!square.cache[x]) {
+        square.cache[x] = x*x;
+      }
+      return square.cache[x];
+    }
+    square.length; // returns the number of parameters
+
+    function sayHello() {
+      return `Hello ${this.name}`;
+    }
+    const clark = {name: 'Clark'};
+    sayHello.call(clark); // sets the value of "this" inside the function
+    // for functions that have multiple parameters, they must be called after the first parameter, which is the "call variable"
+    square.apply(null, [4]); // can send an array
+
+    // you can add custom properties to Functions
+    square.description = "squares a number";
+
+    square(3) // stores the result so you can get the answer faster next time
+    square.cache; // similarly, you can get all the cached items
+  </script>
+  <style>
+  </style>
+</head>
+
+<body>
+  <p>Hello</p>
+</body>
+
+</html>
