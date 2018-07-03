@@ -4,13 +4,22 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Text-Based Star Wars Game</title>
+  <title>Text-Based Star Wars RPG</title>
   <link rel="stylesheet" type="text/css" href="style.css" />
   <script defer type="text/javascript" src="script.js"></script>
-
 </head>
 
 <body>
+  <!-- The Modal -->
+  <section id="myModal" class="modal">
+    <!-- Modal content -->
+    <div class="modal-content">
+      <div id="myModalContent">
+        <p>This is my loading screen</p>
+      </div>
+    </div> <!-- modal content -->
+  </section>
+
   <section id="charCreation">
     <p>What is your name?</p> <input type="text" id="name" />
     <p>What is your species?</p>
@@ -21,8 +30,13 @@
     <select id="planetsDropdown">
       <option></option> <!-- the first option is blank -->
     </select>
+    <p>What vehicle do you drive?</p>
+    <select id="vehiclesDropdown">
+      <option></option> <!-- the first option is blank -->
+    </select>
     <button id="startGame">Start</button>
   </section>
+
   <main>
     <div id="output"></div>
   </main>
