@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Errors</title>
   <script>
-  'use strict'; // starts strict mode if in a JS file
+  'use strict'; // starts strict mode if in a JS file, can be used per function
     unicorn() // unicorn is never defined
     function three(){ unicorn(); }
     function two(){ three(); }
@@ -17,6 +17,40 @@
                 // Chrome won't display a warning
 
     alert("This is a common form of debugging");
+    console.log("this is common, we've used it before");
+    console.trace(); //logs an interactive stack trace
+
+    debugger; // creates a breakpoint
+              // remmeber to remove any references to debuggers before final product
+
+    const error = new Error("This is an error"); // throws a string
+    const error = new TypeError('You need to use numbers in this function');
+
+    throw new Error("something's wrong"); // can be caught in a catch statement
+     /*****************************EXAMPLE************************
+     function squareRoot(number) {
+     'use strict';
+     if (number < 0) {
+       throw new RangeError('You can't find the square root of negative numbers')
+     }
+     return Math.sqrt(number);
+     }
+     *************************************/
+     /****************EXAMPLE************** TRY - CATCH - FINALLY
+     function imaginarySquareRoot(number) {
+     'use strict';
+     let answer;
+     try { // if we suspect the code will throw an console.error();
+       answer = String(squareRoot(number));
+     } catch(error) { // if there is an error, do something
+       answer = squareRoot(-number)+"i";
+     } finally { // do this regardless, run in both cases
+       return `+ or - ${answer}`;
+     }
+     }
+     ************************************/
+     // Tests to make sure that your function works like it should
+     // function itSquareRoots4() { return squareRoot(4) === 2; }
   </script>
   <style>
   </style>
