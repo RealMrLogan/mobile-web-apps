@@ -30,6 +30,42 @@
 
     square(3) // stores the result so you can get the answer faster next time
     square.cache; // similarly, you can get all the cached items
+
+    // immediately invoked function expressions
+    (function(){
+      const temp = 'World';
+      console.log(`Hello ${temp}`);
+    })(); // keeps variable within scope to not pollute the global variables
+
+    // functions that define and redefine themselves
+    function party(){
+      console.log('Wow this is amazing!');
+      party = function(){
+        console.log('Been there, got the T-Shirt');
+      }
+    }
+    party() // 'Wow this is amazing!'
+    party() // 'Been there, got the T-Shirt'
+    party() // 'Been there, got the T-Shirt'
+
+    // recursive function
+    function factorial(n) {
+      if (n === 0) {
+        return 1;
+      } else {
+        return n * factorial(n - 1); // calls itslef with the new parameter
+      }
+    }
+
+    // promises
+    const promise = new Promise( (resolve, reject) => {
+      // initialization code goes here
+      if (success) {
+        resolve(value);
+      } else {
+        reject(error);
+      }
+    });
   </script>
   <style>
   </style>

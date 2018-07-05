@@ -2,8 +2,8 @@
 window.onload = function() {
   const modal = document.getElementById('myModal');
   const charCreation = document.getElementById('charCreation');
-  modal.style.display = "block";
-  charCreation.className = "blur";
+  modal.style.display = "none";
+  charCreation.className = "";
 
   // mySpeciesList = JSON.parse(localStorage.getItem('speciesList'));
   // myPlanetsList = JSON.parse(localStorage.getItem('planetsList'));
@@ -16,17 +16,34 @@ window.onload = function() {
   //   requestPlanets(1);
   // }
 
-  requestSpecies(1); // TODO: set as a promise
-  requestPlanets(1);
-  requestVehicles(1);
+  const speciesPromise = new Promise( (loadSpeciesDropdown, reject) => {
+    console.log("inside the promise");
+    requestSpecies(1);
+    // console.log('requested');
+    // console.log(speciesList);
+    resolve("Success!");
+    if (success) {
+      resolve();
+    } else {
+      reject();
+    }
+  });
+  speciesPromise.then((successMessage) => {
+    console.log('inside promise.then');
+    loadSpeciesDropdown();
+  });
+
+  // requestSpecies(1); // TODO: set as a promise
+  // requestPlanets(1);
+  // requestVehicles(1);
 
   // console.log("The speciesList has stuff in it: ");
   // console.log(speciesList);
   // console.log("The planetsList has stuff in it: ");
   // console.log(planetsList);
-  setTimeout(loadSpeciesDropdown, 3000); // since the HTTP request runs async, have this function wait for a second to load all the data
-  setTimeout(loadPlanetsDropdown, 3000); // same thing as above
-  setTimeout(loadVehiclesDropdown, 3000); // same thing as above
+  // setTimeout(loadSpeciesDropdown, 3000); // since the HTTP request runs async, have this function wait for a second to load all the data
+  // setTimeout(loadPlanetsDropdown, 3000); // same thing as above
+  // setTimeout(loadVehiclesDropdown, 3000); // same thing as above
 
   // request({url: 'https://swapi.co/api/species/?page=1'})
   //   .then(data => {
@@ -41,6 +58,16 @@ window.onload = function() {
   // charCreation.className = "";
 };
 
+function myAsyncFunction(url) {
+  return new Promise((resolve, reject) => {
+    const xhr = new XMLHttpRequest();
+    xhr.open("GET", url);
+    xhr.onload = () => resolve(xhr.responseText);
+    xhr.onerror = () => reject(xhr.statusText);
+    xhr.send();
+  });
+}
+
 // window.onunload = function() {
 //   console.log('closing the browser');
 //   localStorage.setItem('speciesList', JSON.stringify(speciesList));
@@ -48,6 +75,7 @@ window.onload = function() {
 // };
 
 function requestSpecies(pageNumber) { // recursive function so that it is not dependent on hard coding how many pages
+  console.log('requesting the species page '+pageNumber);
   const req = new XMLHttpRequest();
   const URLhost = 'https://swapi.co/api/species/?page=' + pageNumber; // sets up to iterate through the pages
   req.open('GET', URLhost, true);
@@ -68,44 +96,45 @@ function requestSpecies(pageNumber) { // recursive function so that it is not de
   event.preventDefault();
 }
 
-let request = obj => {
-  return new Promise((resolve, reject) => {
-    const req = new XMLHttpRequest();
-    // const URLhost = 'https://swapi.co/api/species/?page=' + pageNumber; // sets up to iterate through the pages
-    req.open(obj.method || 'GET', obj.url);
-    if (obj.headers) {
-      Object.keys(obj.headers).forEach(key => {
-        xhr.setRequestHeader(key, obj.headers[key]);
-      });
-    }
-    xhr.onload = () => {
-      if (xhr.status >= 200 && xhr.status < 300) {
-        resolve(xhr.response);
-      } else {
-        reject(xhr.statusText);
-      }
-    };
-    xhr.onerror = () => reject(xhr.statusText);
-    xhr.send(obj.body);
-    // req.addEventListener('load',function(){
-    //   if(req.status >= 200 && req.status < 400){
-    //     const response = JSON.parse(req.responseText);
-    //     for (let i = 0; i < response.results.length; i++) { // add each object to the list
-    //       speciesList.push(response.results[i]);
-    //     }
-    //     if (response.next) {
-    //       requestSpecies(pageNumber+1); // recursivly call the function with the new page
-    //     }
-    //   } else {
-    //     console.log('Error in network request: ' + req.statusText);
-    //   }
-    // });
-    // req.send(null);
-    // event.preventDefault();
-  });
-};
+// let request = obj => {
+//   return new Promise((resolve, reject) => {
+//     const req = new XMLHttpRequest();
+//     // const URLhost = 'https://swapi.co/api/species/?page=' + pageNumber; // sets up to iterate through the pages
+//     req.open(obj.method || 'GET', obj.url);
+//     if (obj.headers) {
+//       Object.keys(obj.headers).forEach(key => {
+//         xhr.setRequestHeader(key, obj.headers[key]);
+//       });
+//     }
+//     xhr.onload = () => {
+//       if (xhr.status >= 200 && xhr.status < 300) {
+//         resolve(xhr.response);
+//       } else {
+//         reject(xhr.statusText);
+//       }
+//     };
+//     xhr.onerror = () => reject(xhr.statusText);
+//     xhr.send(obj.body);
+//     // req.addEventListener('load',function(){
+//     //   if(req.status >= 200 && req.status < 400){
+//     //     const response = JSON.parse(req.responseText);
+//     //     for (let i = 0; i < response.results.length; i++) { // add each object to the list
+//     //       speciesList.push(response.results[i]);
+//     //     }
+//     //     if (response.next) {
+//     //       requestSpecies(pageNumber+1); // recursivly call the function with the new page
+//     //     }
+//     //   } else {
+//     //     console.log('Error in network request: ' + req.statusText);
+//     //   }
+//     // });
+//     // req.send(null);
+//     // event.preventDefault();
+//   });
+// };
 
 function requestPlanets(pageNumber) { // recursive function so that it is not dependent on hard coding how many pages
+  console.log('requesting the planets page '+pageNumber);
   const req = new XMLHttpRequest();
   const URLhost = 'https://swapi.co/api/planets/?page=' + pageNumber; // sets up to iterate through the pages
   req.open('GET', URLhost, true);
@@ -127,6 +156,7 @@ function requestPlanets(pageNumber) { // recursive function so that it is not de
 }
 
 function requestVehicles(pageNumber) { // recursive function so that it is not dependent on hard coding how many pages
+  console.log('requesting the vehicles page '+pageNumber);
   const req = new XMLHttpRequest();
   const URLhost = 'https://swapi.co/api/vehicles/?page=' + pageNumber; // sets up to iterate through the pages
   req.open('GET', URLhost, true);
