@@ -6,10 +6,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Text-Based Star Wars RPG</title>
   <link rel="stylesheet" type="text/css" href="style.css" />
+  <link href="https://fonts.googleapis.com/css?family=Alegreya+Sans|Cormorant" rel="stylesheet">
   <script defer type="text/javascript" src="script.js"></script>
 </head>
 
 <body>
+  <div id="stars"></div>
+  <div id="stars2"></div>
+  <div id="stars3"></div>
+
   <!-- The Modal -->
   <section id="myModal" class="modal">
     <!-- Modal content -->
@@ -20,18 +25,18 @@
     </div> <!-- modal content -->
   </section>
 
-  <section id="charCreation">
-    <p>What is your name?</p> <input type="text" id="name" />
-    <p>What is your species?</p>
-    <select id="speciesDropdown">
+  <section id="charCreation" class="">
+    <p class="creationTitles">What is your name?</p> <input type="text" id="name" placeholder="Enter your name here"/>
+    <p class="creationTitles">What is your species?</p>
+    <select id="speciesDropdown" class="dropdown">
       <option></option> <!-- the first option is blank -->
     </select>
-    <p>What planet do you live on?</p>
-    <select id="planetsDropdown">
+    <p class="creationTitles">What planet do you live on?</p>
+    <select id="planetsDropdown" class="dropdown">
       <option></option> <!-- the first option is blank -->
     </select>
-    <p>What vehicle do you drive?</p>
-    <select id="vehiclesDropdown">
+    <p class="creationTitles">What vehicle do you drive?</p>
+    <select id="vehiclesDropdown" class="dropdown">
       <option></option> <!-- the first option is blank -->
     </select>
     <button id="startGame">Start</button>

@@ -2,8 +2,14 @@
 window.onload = function() {
   const modal = document.getElementById('myModal');
   const charCreation = document.getElementById('charCreation');
-  modal.style.display = "none";
-  charCreation.className = "";
+  modal.style.display = "block";
+  charCreation.className = "blur";
+
+  //temporary timeout to simulate loading speed
+  setTimeout(function() {
+    modal.style.display = "none";
+    charCreation.className = "";
+  }, 5000);
 
   // mySpeciesList = JSON.parse(localStorage.getItem('speciesList'));
   // myPlanetsList = JSON.parse(localStorage.getItem('planetsList'));
@@ -16,34 +22,34 @@ window.onload = function() {
   //   requestPlanets(1);
   // }
 
-  const speciesPromise = new Promise( (loadSpeciesDropdown, reject) => {
-    console.log("inside the promise");
-    requestSpecies(1);
-    // console.log('requested');
-    // console.log(speciesList);
-    resolve("Success!");
-    if (success) {
-      resolve();
-    } else {
-      reject();
-    }
-  });
-  speciesPromise.then((successMessage) => {
-    console.log('inside promise.then');
-    loadSpeciesDropdown();
-  });
+  // const speciesPromise = new Promise( (loadSpeciesDropdown, reject) => {
+  //   console.log("inside the promise");
+  //   requestSpecies(1);
+  //   // console.log('requested');
+  //   // console.log(speciesList);
+  //   resolve("Success!");
+  //   if (success) {
+  //     resolve();
+  //   } else {
+  //     reject();
+  //   }
+  // });
+  // speciesPromise.then((successMessage) => {
+  //   console.log('inside promise.then');
+  //   loadSpeciesDropdown();
+  // });
 
-  // requestSpecies(1); // TODO: set as a promise
-  // requestPlanets(1);
-  // requestVehicles(1);
+  requestSpecies(1); // TODO: set as a promise
+  requestPlanets(1);
+  requestVehicles(1);
 
   // console.log("The speciesList has stuff in it: ");
   // console.log(speciesList);
   // console.log("The planetsList has stuff in it: ");
   // console.log(planetsList);
-  // setTimeout(loadSpeciesDropdown, 3000); // since the HTTP request runs async, have this function wait for a second to load all the data
-  // setTimeout(loadPlanetsDropdown, 3000); // same thing as above
-  // setTimeout(loadVehiclesDropdown, 3000); // same thing as above
+  setTimeout(loadSpeciesDropdown, 5000); // since the HTTP request runs async, have this function wait for a second to load all the data
+  setTimeout(loadPlanetsDropdown, 5000); // same thing as above
+  setTimeout(loadVehiclesDropdown, 5000); // same thing as above
 
   // request({url: 'https://swapi.co/api/species/?page=1'})
   //   .then(data => {
@@ -87,6 +93,8 @@ function requestSpecies(pageNumber) { // recursive function so that it is not de
       }
       if (response.next) {
         requestSpecies(pageNumber+1); // recursivly call the function with the new page
+      } else {
+        console.log('All done requesting species');
       }
     } else {
       console.log('Error in network request: ' + req.statusText);
@@ -146,6 +154,8 @@ function requestPlanets(pageNumber) { // recursive function so that it is not de
       }
       if (response.next) {
         requestPlanets(pageNumber+1); // recursivly call the function with the new page
+      } else {
+        console.log('All done requesting planets');
       }
     } else {
       console.log('Error in network request: ' + req.statusText);
@@ -168,6 +178,8 @@ function requestVehicles(pageNumber) { // recursive function so that it is not d
       }
       if (response.next) {
         requestVehicles(pageNumber+1); // recursivly call the function with the new page
+      } else {
+        console.log('All done requesting vehicles');
       }
     } else {
       console.log('Error in network request: ' + req.statusText);
