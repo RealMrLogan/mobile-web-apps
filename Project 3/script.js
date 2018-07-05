@@ -234,8 +234,10 @@ document.getElementById('startGame').onclick = function() { // initialize the ga
     Name: ${myPlayer.getName()}
     Species: ${myPlayer.getSpecies()}
     Planet: ${myPlayer.getPlanet()}
-    Vehicle: ${myPlayer.getVehicle()}`
-  );
+    Vehicle: ${myPlayer.getVehicle()}
+    `);
+  const charCreation = document.getElementById('charCreation');
+  charCreation.style.right = "-100%";
 };
 
 function welcome() {
