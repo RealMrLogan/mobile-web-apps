@@ -241,6 +241,8 @@ document.getElementById('startGame').onclick = function() { // initialize the ga
 
   // clean up the html from unused elements
   setTimeout(removeModalAndCharCreation, 1000);
+  const main = document.getElementsByTagName('main')[0];
+  main.style.display = "block";
 
   gameLoop(myPlayer);
 };
@@ -255,8 +257,8 @@ function removeModalAndCharCreation() {
 
 function populateMessageOptions() {
   messageOptions.push({message: "Oh, I don't think so!", type: "worst"}); // worst
-  messageOptions.push({message: "Meh, what's in it for me?", type: "bad"}); // bad
-  messageOptions.push({message: "I guess, what could go wrong?", type: "good"}); // good
+  messageOptions.push({message: "What's in it for me?", type: "bad"}); // bad
+  messageOptions.push({message: "What could go wrong?", type: "good"}); // good
   messageOptions.push({message: "Sure thing.", type: "best"}); // best
 
   console.log(messageOptions);
@@ -269,8 +271,10 @@ function showOptions() {
   const section = document.getElementById('options');
   const leftButton = document.createElement('button');
   leftButton.id = "badChoice";
+  leftButton.className = "button";
   const rightButton = document.createElement('button');
   rightButton.id = "goodChoice";
+  rightButton.className = "button";
 
   leftButton.innerHTML = messageOptions[getRandInt(0, 2)].message; // show the bad option
   section.appendChild(leftButton);
@@ -278,21 +282,31 @@ function showOptions() {
   section.appendChild(rightButton);
 }
 
-function addChatMessage(sender, message) {
+function addChatMessage(message, sender = null) {
   const div = document.createElement('div');
   div.className = "chat";
   const pMessage = document.createElement('p');
   pMessage.className = "message";
   pMessage.innerHTML = message;
-  if (sender.isPlayer()) {
-    div.className = "chat playerChat";
+  if (sender != null) {
+    if (sender.isPlayer()) {
+      div.className = "chat playerChat";
+    }
+    if (sender.isEnemy()) {
+      div.className = "chat enemyChat";
+    }
   }
   div.appendChild(pMessage);
-  const chatHistory = document.getElementById('chatHistory');
-  chatHistory.appendChild(div);
+  const chatMessages = document.getElementById('chatMessages');
+  chatMessages.appendChild(div);
 }
 
 function gameLoop(myPlayer) {
+  const enemy = new character();
+  enemy.setIsEnemy(true);
+  console.dir("Enemy: "+enemy.isEnemy());
+  addChatMessage("So, you finally found me...", enemy);
+  addChatMessage("You bet I did!", myPlayer);
   showOptions();
 }
 
@@ -302,6 +316,7 @@ const character = function (myName, mySpecies, myPlanet, myVehicle, isPlayer = f
   let damage = 2;
   let speed = 5;
   let shield = 10;
+  let enemy = false;
   const name = myName;
   const species = mySpecies;
   const planet = myPlanet;
@@ -317,11 +332,13 @@ const character = function (myName, mySpecies, myPlanet, myVehicle, isPlayer = f
     getPlanet: () => planet,
     getVehicle: () => vehicle,
     isPlayer: () => player,
+    isEnemy: () => enemy,
 
     setHealth: (health) => {hp = health;},
     setDamage: (dmg) => {damage = dmg;},
-    setSpeed: (speed) => {this.speed = speed;},
-    setShield: (shield) => {this.shield = shield;}
+    setSpeed: (newSetting) => {speed = newSetting;},
+    setShield: (newSetting) => {shield = newSetting;},
+    setIsEnemy: (newSetting) => {enemy = newSetting;}
   });
 };
 var speciesList = []; // the array to hold all the species
