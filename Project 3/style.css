@@ -93,16 +93,21 @@ main-content {
   top: 0;
   height: 80%;
   width: 100%;
+  overflow: scroll;
+
 }
 
 #chatHistory {
   position: absolute;
   bottom: 0;
+  width: 100%;
+  height: 100%;
 }
 
 #chatMessages {
   position: relative;
-  background-color: blue;
+  display: flex;
+  flex-direction: column;
 }
 
 #options {
@@ -124,7 +129,7 @@ main-content {
   background-color: black;
   border: 2px solid yellow;
   color: yellow;
-  transition: .5s
+  transition: .5s;
 }
 
 .button:active {
@@ -134,31 +139,30 @@ main-content {
 
 /* For the converations */
 .chat {
-   width: auto;
-   height: auto;
-   padding: 5px;
-   background-color: rgb(175, 175, 175);
-   position: relative;
-   border: 1.5px solid yellow;
-   -moz-border-radius:    10px;
-   -webkit-border-radius: 10px;
-   border-radius:         10px;
-   margin: 10px;
-   right: 0;
+  min-width: auto;
+  max-width: 70%;
+  height: auto;
+  padding: 5px;
+  background-color: rgb(175, 175, 175); /* neutral character */
+  position: relative;
+  border: 1.5px solid yellow;
+  -moz-border-radius:    10px;
+  -webkit-border-radius: 10px;
+  border-radius:         10px;
+  margin: 10px;
+  font-family: 'Alegreya Sans', sans-serif;
 }
 
 .enemyChat {
-
+  background-color: rgb(223, 61, 58);
+  align-self: flex-start;
 }
 
 .playerChat {
   background-color: rgb(99, 182, 205);
   right: 0;
   text-align: right;
-}
-
-.message {
-
+  align-self: flex-end;
 }
 
 /* For the stars */

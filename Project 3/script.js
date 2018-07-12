@@ -2,14 +2,14 @@
 window.onload = function() {
   const modal = document.getElementById('myModal');
   const charCreation = document.getElementById('charCreation');
-  modal.style.display = "none";
-  charCreation.className = "";
+  modal.style.display = "block";
+  charCreation.className = "blur";
 
   //temporary timeout to simulate loading speed
-  // setTimeout(function() {
-  //   modal.style.display = "none";
-  //   charCreation.className = "";
-  // }, 5000);
+  setTimeout(function() {
+    modal.style.display = "none";
+    charCreation.className = "";
+  }, 5000);
 
   // mySpeciesList = JSON.parse(localStorage.getItem('speciesList'));
   // myPlanetsList = JSON.parse(localStorage.getItem('planetsList'));
@@ -39,13 +39,13 @@ window.onload = function() {
   //   loadSpeciesDropdown();
   // });
 
-  // requestSpecies(1); // TODO: set as a promise
-  // requestPlanets(1);
-  // requestVehicles(1);
-  //
-  // setTimeout(loadSpeciesDropdown, 5000); // since the HTTP request runs async, have this function wait for a second to load all the data
-  // setTimeout(loadPlanetsDropdown, 5000); // same thing as above
-  // setTimeout(loadVehiclesDropdown, 5000); // same thing as above
+  requestSpecies(1); // TODO: set as a promise
+  requestPlanets(1);
+  requestVehicles(1);
+
+  setTimeout(loadSpeciesDropdown, 5000); // since the HTTP request runs async, have this function wait for a second to load all the data
+  setTimeout(loadPlanetsDropdown, 5000); // same thing as above
+  setTimeout(loadVehiclesDropdown, 5000); // same thing as above
 
   // request({url: 'https://swapi.co/api/species/?page=1'})
   //   .then(data => {
@@ -187,11 +187,6 @@ function requestVehicles(pageNumber) { // recursive function so that it is not d
 }
 
 function loadSpeciesDropdown() {
-  // console.log('organizing the Species');
-  // console.log(speciesList);
-  // // speciesList.sort(function(a, b){return speciesList[a].name - speciesList[b].name});
-  // console.log(speciesList);
-
   console.log('loading the species dropdown');
   for (let i = 0; i < speciesList.length; i++) {
     let speciesName = document.createElement('option');
@@ -221,11 +216,9 @@ function loadVehiclesDropdown() {
 document.getElementById('startGame').onclick = function() { // initialize the game
   console.log("started the game");
   const name = document.getElementById('name').value;
-  const speciesDropdown = document.getElementById('speciesDropdown');
-  const planetsDropdown = document.getElementById('planetsDropdown');
-  const species = speciesDropdown.options[speciesDropdown.selectedIndex].text;
-  const planet = planetsDropdown.options[planetsDropdown.selectedIndex].text;
-  const vehicle = vehiclesDropdown.options[vehiclesDropdown.selectedIndex].text;
+  const species = document.getElementById('speciesDropdown').options[speciesDropdown.selectedIndex].text;
+  const planet = document.getElementById('planetsDropdown').options[planetsDropdown.selectedIndex].text;
+  const vehicle = document.getElementById('vehiclesDropdown').options[vehiclesDropdown.selectedIndex].text;
   const myPlayer = character(name, species, planet, vehicle, true);
   console.log(
     `
@@ -272,17 +265,20 @@ function showOptions() {
   const leftButton = document.createElement('button');
   leftButton.id = "badChoice";
   leftButton.className = "button";
+
   const rightButton = document.createElement('button');
   rightButton.id = "goodChoice";
   rightButton.className = "button";
 
   leftButton.innerHTML = messageOptions[getRandInt(0, 2)].message; // show the bad option
   section.appendChild(leftButton);
+
   rightButton.innerHTML = messageOptions[getRandInt(2, 4)].message; // show the good option
   section.appendChild(rightButton);
 }
 
 function addChatMessage(message, sender = null) {
+  console.log("adding a message: "+message);
   const div = document.createElement('div');
   div.className = "chat";
   const pMessage = document.createElement('p');
@@ -305,10 +301,17 @@ function gameLoop(myPlayer) {
   const enemy = new character();
   enemy.setIsEnemy(true);
   console.dir("Enemy: "+enemy.isEnemy());
-  addChatMessage("So, you finally found me...", enemy);
-  addChatMessage("You bet I did!", myPlayer);
+  addChatMessage("Hello World", enemy);
+  addChatMessage("this is a test to see how long the chat message can get test test sdf fg afg asd fasdf  dsfasdfasdfasdfasd asgasdfs", enemy);
+
   showOptions();
+
+  // document.getElementById('goodChoice').addEventListener("click", addChatMessage;
+  // document.getElementById('badChoice').addEventListener("click", addChatMessage;
+
+  // TODO: Set up JSON object with all the story options and 
 }
+
 
 // Global variables
 const character = function (myName, mySpecies, myPlanet, myVehicle, isPlayer = false) {
