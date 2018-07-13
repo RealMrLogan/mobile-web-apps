@@ -68,6 +68,59 @@
     });
 
     //Chaining multiple functions
+    login(userName) // initial promise
+    .then(user => getPlayerInfo(user.id)) // once the first function is done, do this
+    .then(info => loadGame(info))
+    .catch(throw error);
+
+    //asynce Functions
+    async function loadGame(userName) {
+      try {
+        const user = await login(userName);
+        const info = await getPlayerInfo (user.id); // load the game using the returned info
+      }
+      catch (error){ throw error; }
+    }
+
+    // functions that return Functions
+    function returnHello() {
+      console.log('returnHello() called');
+      return function() { console.log('Hello World!'); }
+    }
+    const hello = returnHello();
+    hello() // executes the return function
+
+    // Closures
+    function outer() {
+      const outside = 'Outside!';
+      function inner() { // can access any element from the outside function
+        const inside = 'Inside!';
+        console.log(outside);
+        console.log(inside);
+      }
+      console.log(outside);
+      return inner();
+    }
+    const closure = outer();
+
+    function counter(start){
+      let i = start;
+      return function() { return i++; }
+    }
+    const count = counter(1);
+    count; // every time count is called, it adds one
+
+    // Generators
+    function* fibonacci(a, b) {
+      let [ prev, current ] = [ a, b ];
+      while(true) {
+        [prev, current] = [current, prev + current];
+        yield current;
+      }
+    }
+    const sequence = fibonacci(1, 1);
+    sequence.next(); // returns 2
+    sequence.next(); // returns 3
   </script>
   <style>
   </style>
