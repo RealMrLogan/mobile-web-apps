@@ -2,29 +2,12 @@
 window.onload = function() {
   startLoadingScreen();
 
-  // mySpeciesList = JSON.parse(localStorage.getItem('speciesList'));
-  // myPlanetsList = JSON.parse(localStorage.getItem('planetsList'));
-  // if (!mySpeciesList) {
-  //   console.log('getting speciesList');
-  //   requestSpecies(1);
-  // }
-  // if (!myPlanetsList) {
-  //   console.log('getting planetsList');
-  //   requestPlanets(1);
-  // }
-
   requestSpecies(1);
   requestPlanets(1);
   requestVehicles(1);
 
   populateMessageOptions();
 };
-
-// window.onunload = function() {
-//   console.log('closing the browser');
-//   localStorage.setItem('speciesList', JSON.stringify(speciesList));
-//   localStorage.setItem('planetsList', JSON.stringify(planestsList));
-// };
 
 // TODO: The request functions work the same, consider redesiging to properly use a promise
 
@@ -97,21 +80,9 @@ function startLoadingScreen() {
 /**
 * This function is called whenever a request is done
 */
-// finishLoadingScreen.calledTimes = 0;
-// function finishLoadingScreen() {
-//   finishLoadingScreen.calledTimes++;
-//
-//   if (finishLoadingScreen.calledTimes == 3) {
-//     console.log('--The loading screen is done--');
-//     const modal = document.getElementById('myModal');
-//     const charCreation = document.getElementById('charCreation');
-//     modal.style.display = "none";
-//     charCreation.className = "";
-//   }
-// }
 function finishLoadingScreen() { // redefines itself once
   finishLoadingScreen = function() { // twice
-    finishLoadingScreen = function() { // the third time
+    finishLoadingScreen = function() { // and a third time
       console.log('--The loading screen is done--');
       const modal = document.getElementById('myModal');
       const charCreation = document.getElementById('charCreation');
