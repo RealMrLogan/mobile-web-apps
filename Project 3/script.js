@@ -1,15 +1,6 @@
 /*jshint esversion: 6 */
 window.onload = function() {
-  const modal = document.getElementById('myModal');
-  const charCreation = document.getElementById('charCreation');
-  modal.style.display = "block";
-  charCreation.className = "blur";
-
-  //temporary timeout to simulate loading speed
-  setTimeout(function() {
-    modal.style.display = "none";
-    charCreation.className = "";
-  }, 5000);
+  startLoadingScreen();
 
   // mySpeciesList = JSON.parse(localStorage.getItem('speciesList'));
   // myPlanetsList = JSON.parse(localStorage.getItem('planetsList'));
@@ -22,54 +13,12 @@ window.onload = function() {
   //   requestPlanets(1);
   // }
 
-  // const speciesPromise = new Promise( (loadSpeciesDropdown, reject) => {
-  //   console.log("inside the promise");
-  //   requestSpecies(1);
-  //   // console.log('requested');
-  //   // console.log(speciesList);
-  //   resolve("Success!");
-  //   if (success) {
-  //     resolve();
-  //   } else {
-  //     reject();
-  //   }
-  // });
-  // speciesPromise.then((successMessage) => {
-  //   console.log('inside promise.then');
-  //   loadSpeciesDropdown();
-  // });
-
-  requestSpecies(1); // TODO: set as a promise
+  requestSpecies(1);
   requestPlanets(1);
   requestVehicles(1);
 
-  setTimeout(loadSpeciesDropdown, 5000); // since the HTTP request runs async, have this function wait for a second to load all the data
-  setTimeout(loadPlanetsDropdown, 5000); // same thing as above
-  setTimeout(loadVehiclesDropdown, 5000); // same thing as above
-
-  // request({url: 'https://swapi.co/api/species/?page=1'})
-  //   .then(data => {
-  //     // add the responses to the variable
-  //   })
-  //   .catch(error => {
-  //     console.log(error);
-  //   });
-
-  //after the content is loaded
-  // modal.style.display = "none";
-  // charCreation.className = "";
   populateMessageOptions();
 };
-
-function myAsyncFunction(url) {
-  return new Promise((resolve, reject) => {
-    const xhr = new XMLHttpRequest();
-    xhr.open("GET", url);
-    xhr.onload = () => resolve(xhr.responseText);
-    xhr.onerror = () => reject(xhr.statusText);
-    xhr.send();
-  });
-}
 
 // window.onunload = function() {
 //   console.log('closing the browser');
@@ -77,113 +26,88 @@ function myAsyncFunction(url) {
 //   localStorage.setItem('planetsList', JSON.stringify(planestsList));
 // };
 
+// TODO: The request functions work the same, consider redesiging to properly use a promise
+
 function requestSpecies(pageNumber) { // recursive function so that it is not dependent on hard coding how many pages
   console.log('requesting the species page '+pageNumber);
-  const req = new XMLHttpRequest();
-  const URLhost = 'https://swapi.co/api/species/?page=' + pageNumber; // sets up to iterate through the pages
-  req.open('GET', URLhost, true);
-  req.addEventListener('load',function(){
-    if(req.status >= 200 && req.status < 400){
-      const response = JSON.parse(req.responseText);
-      for (let i = 0; i < response.results.length; i++) { // add each object to the list
-        speciesList.push(response.results[i]);
+  const url = 'https://swapi.co/api/species/?page=' + pageNumber; // sets up to iterate through the pages
+  fetch(url).then((response) => {
+    response.json().then((data) => {
+      for (var i = 0; i < data.results.length; i++) {
+        speciesList.push(data.results[i]);
       }
-      if (response.next) {
+      if (data.next) {
         requestSpecies(pageNumber+1); // recursivly call the function with the new page
       } else {
         console.log('All done requesting species');
+        loadSpeciesDropdown();
+        finishLoadingScreen();
       }
-    } else {
-      console.log('Error in network request: ' + req.statusText);
-    }
+    });
   });
-  req.send(null);
-  event.preventDefault();
 }
-
-// let request = obj => {
-//   return new Promise((resolve, reject) => {
-//     const req = new XMLHttpRequest();
-//     // const URLhost = 'https://swapi.co/api/species/?page=' + pageNumber; // sets up to iterate through the pages
-//     req.open(obj.method || 'GET', obj.url);
-//     if (obj.headers) {
-//       Object.keys(obj.headers).forEach(key => {
-//         xhr.setRequestHeader(key, obj.headers[key]);
-//       });
-//     }
-//     xhr.onload = () => {
-//       if (xhr.status >= 200 && xhr.status < 300) {
-//         resolve(xhr.response);
-//       } else {
-//         reject(xhr.statusText);
-//       }
-//     };
-//     xhr.onerror = () => reject(xhr.statusText);
-//     xhr.send(obj.body);
-//     // req.addEventListener('load',function(){
-//     //   if(req.status >= 200 && req.status < 400){
-//     //     const response = JSON.parse(req.responseText);
-//     //     for (let i = 0; i < response.results.length; i++) { // add each object to the list
-//     //       speciesList.push(response.results[i]);
-//     //     }
-//     //     if (response.next) {
-//     //       requestSpecies(pageNumber+1); // recursivly call the function with the new page
-//     //     }
-//     //   } else {
-//     //     console.log('Error in network request: ' + req.statusText);
-//     //   }
-//     // });
-//     // req.send(null);
-//     // event.preventDefault();
-//   });
-// };
 
 function requestPlanets(pageNumber) { // recursive function so that it is not dependent on hard coding how many pages
   console.log('requesting the planets page '+pageNumber);
-  const req = new XMLHttpRequest();
-  const URLhost = 'https://swapi.co/api/planets/?page=' + pageNumber; // sets up to iterate through the pages
-  req.open('GET', URLhost, true);
-  req.addEventListener('load',function(){
-    if(req.status >= 200 && req.status < 400){
-      const response = JSON.parse(req.responseText);
-      for (let i = 0; i < response.results.length; i++) { // add each object to the list
-        planetsList.push(response.results[i]);
+  const url = 'https://swapi.co/api/planets/?page=' + pageNumber; // sets up to iterate through the pages
+  fetch(url).then((response) => {
+    response.json().then((data) => {
+      for (var i = 0; i < data.results.length; i++) {
+        planetsList.push(data.results[i]);
       }
-      if (response.next) {
+      if (data.next) {
         requestPlanets(pageNumber+1); // recursivly call the function with the new page
       } else {
         console.log('All done requesting planets');
+        loadPlanetsDropdown();
+        finishLoadingScreen();
       }
-    } else {
-      console.log('Error in network request: ' + req.statusText);
-    }
+    });
   });
-  req.send(null);
-  event.preventDefault();
 }
 
 function requestVehicles(pageNumber) { // recursive function so that it is not dependent on hard coding how many pages
   console.log('requesting the vehicles page '+pageNumber);
-  const req = new XMLHttpRequest();
-  const URLhost = 'https://swapi.co/api/vehicles/?page=' + pageNumber; // sets up to iterate through the pages
-  req.open('GET', URLhost, true);
-  req.addEventListener('load',function(){
-    if(req.status >= 200 && req.status < 400){
-      const response = JSON.parse(req.responseText);
-      for (let i = 0; i < response.results.length; i++) { // add each object to the list
-        vehiclesList.push(response.results[i]);
+  const url = 'https://swapi.co/api/vehicles/?page=' + pageNumber; // sets up to iterate through the pages
+  fetch(url).then((response) => {
+    response.json().then((data) => {
+      for (var i = 0; i < data.results.length; i++) {
+        vehiclesList.push(data.results[i]);
       }
-      if (response.next) {
+      if (data.next) {
         requestVehicles(pageNumber+1); // recursivly call the function with the new page
       } else {
         console.log('All done requesting vehicles');
+        loadVehiclesDropdown();
+        finishLoadingScreen();
       }
-    } else {
-      console.log('Error in network request: ' + req.statusText);
-    }
+    });
   });
-  req.send(null);
-  event.preventDefault();
+}
+
+function startLoadingScreen() {
+  console.log('--Started the loading screen--');
+
+  const modal = document.getElementById('myModal');
+  const charCreation = document.getElementById('charCreation');
+  modal.style.display = "block";
+  charCreation.className = "blur";
+}
+
+/**
+* This function is called whenever a request is done
+*/
+finishLoadingScreen.calledTimes = 0;
+function finishLoadingScreen() {
+  finishLoadingScreen.calledTimes++;
+
+  if (finishLoadingScreen.calledTimes == 3) {
+    console.log('--The loading screen is done--');
+    const modal = document.getElementById('myModal');
+    const charCreation = document.getElementById('charCreation');
+    modal.style.display = "none";
+    charCreation.className = "";
+  }
 }
 
 function loadSpeciesDropdown() {
@@ -196,7 +120,7 @@ function loadSpeciesDropdown() {
 }
 
 function loadPlanetsDropdown() {
-  console.log('loading the plantes dropdown');
+  console.log('loading the planets dropdown');
   for (let i = 0; i < planetsList.length; i++) {
     let planetsName = document.createElement('option');
     planetsName.innerHTML = planetsList[i].name;
@@ -231,7 +155,7 @@ document.getElementById('startGame').onclick = function() { // initialize the ga
   );
   const charCreation = document.getElementById('charCreation');
   charCreation.style.right = "-100%";
-
+  // TODO: make the transition slide to the right
   // clean up the html from unused elements
   setTimeout(removeModalAndCharCreation, 1000);
   const main = document.getElementsByTagName('main')[0];
@@ -253,8 +177,6 @@ function populateMessageOptions() {
   messageOptions.push({message: "What's in it for me?", type: "bad"}); // bad
   messageOptions.push({message: "What could go wrong?", type: "good"}); // good
   messageOptions.push({message: "Sure thing.", type: "best"}); // best
-
-  console.log(messageOptions);
 }
 
 function showOptions() {
@@ -277,18 +199,18 @@ function showOptions() {
   section.appendChild(rightButton);
 }
 
-function addChatMessage(message, sender = null) {
+function addChatMessage(message, isPlayer = null) {
   console.log("adding a message: "+message);
   const div = document.createElement('div');
   div.className = "chat";
   const pMessage = document.createElement('p');
   pMessage.className = "message";
   pMessage.innerHTML = message;
-  if (sender != null) {
-    if (sender.isPlayer()) {
+  if (isPlayer != null) {
+    if (isPlayer == true) {
       div.className = "chat playerChat";
     }
-    if (sender.isEnemy()) {
+    if (isPlayer == false) {
       div.className = "chat enemyChat";
     }
   }
@@ -298,20 +220,16 @@ function addChatMessage(message, sender = null) {
 }
 
 function gameLoop(myPlayer) {
-  const enemy = new character();
-  enemy.setIsEnemy(true);
-  console.dir("Enemy: "+enemy.isEnemy());
-  addChatMessage("Hello World", enemy);
-  addChatMessage("this is a test to see how long the chat message can get test test sdf fg afg asd fasdf  dsfasdfasdfasdfasd asgasdfs", enemy);
+  addChatMessage("Hello World", false);
+  addChatMessage("this is a test to see how long the chat message can get test test sdf fg afg asd fasdf  dsfasdfasdfasdfasd asgasdfs", false);
 
   showOptions();
 
   // document.getElementById('goodChoice').addEventListener("click", addChatMessage;
   // document.getElementById('badChoice').addEventListener("click", addChatMessage;
 
-  // TODO: Set up JSON object with all the story options and 
+  // TODO: Set up JSON object with all the story options and choices
 }
-
 
 // Global variables
 const character = function (myName, mySpecies, myPlanet, myVehicle, isPlayer = false) {
