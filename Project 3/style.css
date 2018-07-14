@@ -36,16 +36,44 @@ main-content {
   height: 94%;
 }
 
-/* The Close Button */
-.close {
-  color: #aaaaaa;
-  float: right;
-  font-size: 40px;
+#loading {
+  position: absolute;
+  left: 42.5%;
+  top: 20%;
+  text-transform: uppercase;
+  color: Black;
+  font-family: helvetica, sans-serif;
   font-weight: bold;
+  writing-mode: vertical-lr;
+  text-orientation: upright;
+}
+
+.hilt {
+  position: absolute;
+  left: 45%;
+  bottom: 5%;
+  height: 20%;
+  width: 30px;
+}
+.saber {
+  position: absolute;
+  left: 45%;
+  bottom: 23%;
+  height: 0;
+  width: 30px;
+  background-color: white;
+  -webkit-animation: grow 1.5s infinite;
+  filter: blur(5px);
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+}
+
+@-webkit-keyframes grow {
+  100% {height: 75%;}
 }
 
 .blur {
-  filter: blur(5px);
+  filter: blur(20px);
 }
 
 #charCreation {
@@ -93,8 +121,7 @@ main-content {
   top: 0;
   height: 80%;
   width: 100%;
-  overflow: scroll;
-
+  overflow: scroll
 }
 
 #chatHistory {

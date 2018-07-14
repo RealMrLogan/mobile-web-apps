@@ -97,17 +97,28 @@ function startLoadingScreen() {
 /**
 * This function is called whenever a request is done
 */
-finishLoadingScreen.calledTimes = 0;
-function finishLoadingScreen() {
-  finishLoadingScreen.calledTimes++;
-
-  if (finishLoadingScreen.calledTimes == 3) {
-    console.log('--The loading screen is done--');
-    const modal = document.getElementById('myModal');
-    const charCreation = document.getElementById('charCreation');
-    modal.style.display = "none";
-    charCreation.className = "";
-  }
+// finishLoadingScreen.calledTimes = 0;
+// function finishLoadingScreen() {
+//   finishLoadingScreen.calledTimes++;
+//
+//   if (finishLoadingScreen.calledTimes == 3) {
+//     console.log('--The loading screen is done--');
+//     const modal = document.getElementById('myModal');
+//     const charCreation = document.getElementById('charCreation');
+//     modal.style.display = "none";
+//     charCreation.className = "";
+//   }
+// }
+function finishLoadingScreen() { // redefines itself once
+  finishLoadingScreen = function() { // twice
+    finishLoadingScreen = function() { // the third time
+      console.log('--The loading screen is done--');
+      const modal = document.getElementById('myModal');
+      const charCreation = document.getElementById('charCreation');
+      modal.style.display = "none";
+      charCreation.className = "";
+    };
+  };
 }
 
 function loadSpeciesDropdown() {
