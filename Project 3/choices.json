@@ -1,0 +1,65 @@
+{
+  "choice1": {
+    "leftButton": "No, I'm good here",
+    "rightButton": "Sure, why not?",
+    "friendMessage": "Wow, you were asleep for a while! <br /> It's about time you woke up, do you want to step outside with me?",
+    "leftNext": "choice5",
+    "rightNext": "choice2"
+  },
+  "choice2": {
+    "leftButton": "Not really, I've been on some pretty sweet planets...",
+    "rightButton": "Yeah, no place is better!",
+    "friendMessage": "What a wonderful day on ${planet}, don't you think?",
+    "leftNext": "choice4",
+    "rightNext": "choice3"
+  },
+  "choice3": {
+    "leftButton": "Not today, I'm still feeling a little light headed",
+    "rightButton": "I think I'm in the right modd for that",
+    "friendMessage": "I agree, do you want to hop on your ${vehicle} and cruise with me?",
+    "leftNext": "end1",
+    "rightNext": "end2"
+  },
+  "choice4": {
+    "leftButton": "No, I'm not up to it right now.",
+    "rightButton": "Your on!",
+    "friendMessage": "Hmm, you want to put your money where your mouth is? Let's race pink slips, my Speeder for your ${vehicle}?",
+    "leftNext": "end3",
+    "rightNext": "end4"
+  },
+  "choice5": {
+    "leftButton": "No really, I'm good here.",
+    "rightButton": "Yeah, you're right. let's go",
+    "friendMessage": "Oh come on, what's another great day on ${planet}?",
+    "leftNext": "choice4",
+    "rightNext": "choice3"
+  },
+  "end1": {
+    "leftButton": "I have a bad feeling about this...",
+    "rightButton": "Play Again?",
+    "friendMessage": "I forgot you ${species}s are so humble. I'll catch you later.",
+    "leftNext": "",
+    "rightNext": "choice1"
+  },
+  "end2": {
+    "leftButton": "I have a bad feeling about this...",
+    "rightButton": "Play Again?",
+    "friendMessage": "Nice, ${species}s aren't so bad. Let's ride!",
+    "leftNext": "",
+    "rightNext": "choice1"
+  },
+  "end3": {
+    "leftButton": "I have a bad feeling about this...",
+    "rightButton": "Play Again?",
+    "friendMessage": "Oh yeah, ${species}s aren't very competitive. See you.",
+    "leftNext": "",
+    "rightNext": "choice1"
+  },
+  "end4": {
+    "leftButton": "I have a bad feeling about this...",
+    "rightButton": "Play Again?",
+    "friendMessage": "Awesome, let's see how fast ${species}s are!",
+    "leftNext": "",
+    "rightNext": "choice1"
+  }
+}

@@ -106,9 +106,27 @@ main-content {
   width: 87%;
 }
 
+#goodChoice, #badChoice { /* TODO: style the buttons to accomadate for any length message */
+  width: 45%;
+  margin: 2.5%;
+  height: 85%;
+  padding: 0;
+  font-family: 'Cormorant', serif;
+  font-size: 18px;
+  background-color: black;
+  border: 2px solid yellow;
+  color: yellow;
+  transition: .5s;
+}
+button:active {
+  background-color: yellow;
+  color: black;
+}
+
 #startGame {
   margin: 30px 10px;
   width: 93%;
+  height: auto;
   padding: 10px;
   font-size: 30px;
   background-color: rgb(83, 83, 83);
@@ -146,24 +164,6 @@ main-content {
   text-align: center;
 }
 
-.button {
-  width: 45%;
-  margin: 2.5%;
-  height: 85%;
-  padding: 0;
-  font-family: 'Cormorant', serif;
-  font-size: 18px;
-  background-color: black;
-  border: 2px solid yellow;
-  color: yellow;
-  transition: .5s;
-}
-
-.button:active {
-  background-color: yellow;
-  color: black;
-}
-
 /* For the converations */
 .chat {
   min-width: auto;
@@ -180,8 +180,8 @@ main-content {
   font-family: 'Alegreya Sans', sans-serif;
 }
 
-.enemyChat {
-  background-color: rgb(223, 61, 58);
+.friendChat {
+  background-color: rgb(40, 134, 69);
   align-self: flex-start;
 }
 

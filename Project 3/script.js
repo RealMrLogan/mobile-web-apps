@@ -1,12 +1,10 @@
 /*jshint esversion: 6 */
 window.onload = function() {
-  startLoadingScreen();
-
-  requestSpecies(1);
-  requestPlanets(1);
-  requestVehicles(1);
-
-  populateMessageOptions();
+  // startLoadingScreen();
+  //
+  // requestSpecies(1);
+  // requestPlanets(1);
+  // requestVehicles(1);
 };
 
 // TODO: The request functions work the same, consider redesiging to properly use a promise
@@ -154,34 +152,38 @@ function removeModalAndCharCreation() {
   charCreation.parentNode.removeChild(charCreation);
 }
 
-function populateMessageOptions() {
-  messageOptions.push({message: "Oh, I don't think so!", type: "worst"}); // worst
-  messageOptions.push({message: "What's in it for me?", type: "bad"}); // bad
-  messageOptions.push({message: "What could go wrong?", type: "good"}); // good
-  messageOptions.push({message: "Sure thing.", type: "best"}); // best
-}
+// function populateMessageOptions() {
+//   messageOptions.push({message: "Oh, I don't think so!", type: "worst"}); // worst
+//   messageOptions.push({message: "What's in it for me?", type: "bad"}); // bad
+//   messageOptions.push({message: "What could go wrong?", type: "good"}); // good
+//   messageOptions.push({message: "Sure thing.", type: "best"}); // best
+// }
 
-function showOptions() {
+function showOptions(leftMessage, rightMessage) {
   function getRandInt(min, max) {
     return Math.floor(Math.random() * (max - min)) + min;
   }
   const section = document.getElementById('options');
   const leftButton = document.createElement('button');
   leftButton.id = "badChoice";
-  leftButton.className = "button";
 
   const rightButton = document.createElement('button');
   rightButton.id = "goodChoice";
-  rightButton.className = "button";
 
-  leftButton.innerHTML = messageOptions[getRandInt(0, 2)].message; // show the bad option
+  leftButton.innerHTML = leftMessage; // show the bad option
   section.appendChild(leftButton);
 
-  rightButton.innerHTML = messageOptions[getRandInt(2, 4)].message; // show the good option
+  rightButton.innerHTML = rightMessage; // show the good option
   section.appendChild(rightButton);
 }
 
+function typingMessage(letters) {
+  letters += "00";
+  console.log(`Do this for ${letters} milliseconds`);
+}
+
 function addChatMessage(message, isPlayer = null) {
+  typingMessage(message.length);
   console.log("adding a message: "+message);
   const div = document.createElement('div');
   div.className = "chat";
@@ -193,7 +195,7 @@ function addChatMessage(message, isPlayer = null) {
       div.className = "chat playerChat";
     }
     if (isPlayer == false) {
-      div.className = "chat enemyChat";
+      div.className = "chat friendChat";
     }
   }
   div.appendChild(pMessage);
@@ -202,15 +204,30 @@ function addChatMessage(message, isPlayer = null) {
 }
 
 function gameLoop(myPlayer) {
-  addChatMessage("Hello World", false);
-  addChatMessage("this is a test to see how long the chat message can get test test sdf fg afg asd fasdf  dsfasdfasdfasdfasd asgasdfs", false);
+  // addChatMessage("Hello World", false);
+  // addChatMessage("this is a test to see how long the chat message can get test test sdf fg afg asd fasdf  dsfasdfasdfasdfasd asgasdfs", false);
 
-  showOptions();
+  fetch("choices.json").then((response) => {
+    response.json().then((data => {
+      function progressStory(choice) {
+        console.log(choice);
 
-  // document.getElementById('goodChoice').addEventListener("click", addChatMessage;
-  // document.getElementById('badChoice').addEventListener("click", addChatMessage;
-
-  // TODO: Set up JSON object with all the story options and choices
+        showOptions(choice.leftButton, choice.rightButton);
+        const leftButton = document.getElementById('badChoice');
+        const rightButton = document.getElementById('goodChoice');
+        addChatMessage(choice.friendMessage, false);
+        leftButton.addEventListener('click', function() {
+          addChatMessage(choice.leftButton, true);
+          progressStory(data[choice].leftNext);
+        });
+        rightButton.addEventListener('click', function() {
+          addChatMessage(choice.rightButton, true);
+          progressStory(data[choice].rightNext);
+        });
+      }
+      progressStory(data.choice2); // start the story
+    }));
+  });
 }
 
 // Global variables
@@ -219,7 +236,7 @@ const character = function (myName, mySpecies, myPlanet, myVehicle, isPlayer = f
   let damage = 2;
   let speed = 5;
   let shield = 10;
-  let enemy = false;
+  let friend = false;
   const name = myName;
   const species = mySpecies;
   const planet = myPlanet;
@@ -235,16 +252,16 @@ const character = function (myName, mySpecies, myPlanet, myVehicle, isPlayer = f
     getPlanet: () => planet,
     getVehicle: () => vehicle,
     isPlayer: () => player,
-    isEnemy: () => enemy,
+    isfriend: () => friend,
 
     setHealth: (health) => {hp = health;},
     setDamage: (dmg) => {damage = dmg;},
     setSpeed: (newSetting) => {speed = newSetting;},
     setShield: (newSetting) => {shield = newSetting;},
-    setIsEnemy: (newSetting) => {enemy = newSetting;}
+    setIsfriend: (newSetting) => {friend = newSetting;}
   });
 };
 var speciesList = []; // the array to hold all the species
 var planetsList = []; // the array to hold all the planets
 var vehiclesList = []; // the array to hold all the vehicles
-var messageOptions = []; // an array that holds all the player's messages
+// var messageOptions = []; // an array that holds all the player's messages
