@@ -19,11 +19,20 @@ function requestSpecies(pageNumber) { // recursive function so that it is not de
       if (data.next) {
         requestSpecies(pageNumber+1); // recursivly call the function with the new page
       } else {
+        alphabetizeSpecies();
         loadSpeciesDropdown();
         finishLoadingScreen();
       }
     });
   });
+}
+
+function alphabetizeSpecies() {
+  let newSpecies = [];
+  for (var i = 0; i < speciesList.length; i++) {
+    newSpecies.push(speciesList[i].name);
+  }
+  speciesList = newSpecies.sort();
 }
 
 function requestPlanets(pageNumber) { // recursive function so that it is not dependent on hard coding how many pages
@@ -36,11 +45,20 @@ function requestPlanets(pageNumber) { // recursive function so that it is not de
       if (data.next) {
         requestPlanets(pageNumber+1); // recursivly call the function with the new page
       } else {
+        alphabetizePlanets();
         loadPlanetsDropdown();
         finishLoadingScreen();
       }
     });
   });
+}
+
+function alphabetizePlanets() {
+  let newPlanets = [];
+  for (var i = 0; i < planetsList.length; i++) {
+    newPlanets.push(planetsList[i].name);
+  }
+  planetsList = newPlanets.sort();
 }
 
 function requestVehicles(pageNumber) { // recursive function so that it is not dependent on hard coding how many pages
@@ -53,11 +71,20 @@ function requestVehicles(pageNumber) { // recursive function so that it is not d
       if (data.next) {
         requestVehicles(pageNumber+1); // recursivly call the function with the new page
       } else {
+        alphabetizeVehicles();
         loadVehiclesDropdown();
         finishLoadingScreen();
       }
     });
   });
+}
+
+function alphabetizeVehicles() {
+  let newVehicles = [];
+  for (var i = 0; i < vehiclesList.length; i++) {
+    newVehicles.push(vehiclesList[i].name);
+  }
+  vehiclesList = newVehicles.sort();
 }
 
 function startLoadingScreen() {
@@ -84,7 +111,7 @@ function finishLoadingScreen() { // redefines itself once
 function loadSpeciesDropdown() {
   for (let i = 0; i < speciesList.length; i++) {
     let speciesName = document.createElement('option');
-    speciesName.innerHTML = speciesList[i].name;
+    speciesName.innerHTML = speciesList[i];
     document.getElementById('speciesDropdown').add(speciesName);
   }
 }
@@ -92,7 +119,7 @@ function loadSpeciesDropdown() {
 function loadPlanetsDropdown() {
   for (let i = 0; i < planetsList.length; i++) {
     let planetsName = document.createElement('option');
-    planetsName.innerHTML = planetsList[i].name;
+    planetsName.innerHTML = planetsList[i];
     document.getElementById('planetsDropdown').add(planetsName);
   }
 }
@@ -100,7 +127,7 @@ function loadPlanetsDropdown() {
 function loadVehiclesDropdown() {
   for (let i = 0; i < vehiclesList.length; i++) {
     let vehiclesName = document.createElement('option');
-    vehiclesName.innerHTML = vehiclesList[i].name;
+    vehiclesName.innerHTML = vehiclesList[i];
     document.getElementById('vehiclesDropdown').add(vehiclesName);
   }
 }
@@ -157,21 +184,13 @@ function showOptions(leftMessage, rightMessage) {
   section.appendChild(rightButton);
 }
 
-function typingMessage(letters) {
-  letters += "00";
-  console.log(`Do this for ${letters} milliseconds`);
-  setTimeout(() => {
-    console.log("Sent the message");
-  }, letters);
-}
-
 function addChatMessage(message, isPlayer = null) {
-  typingMessage(message.length);
   const div = document.createElement('div');
   div.className = "chat";
   const pMessage = document.createElement('p');
   pMessage.className = "message";
   pMessage.innerHTML = message;
+  // pMessage.id = "newMessage";
   if (isPlayer != null) {
     if (isPlayer == true) {
       div.className = "chat playerChat";
@@ -183,16 +202,32 @@ function addChatMessage(message, isPlayer = null) {
   div.appendChild(pMessage);
   const chatMessages = document.getElementById('chatMessages');
   chatMessages.appendChild(div);
+  const pos = document.getElementById('chatBox');
+  pos.scrollTop = pos.scrollHeight; // since this number will always be greater, it sets it to the max
+
+  let i = 0;
+  let speed = 50;
+  // typingMessage();
+  function typingMessage() {
+    const newMessage = document.getElementById('newMessage');
+
+    if (i < message.length) {
+      console.log("typing the message at: "+i);
+      newMessage.innerHTML += message.charAt(i);
+      i++;
+      const pos = document.getElementById('chatBox');
+      pos.scrollTop = pos.scrollHeight; // since this number will always be greater, it sets it to the max
+      setTimeout(typingMessage, speed);
+    } else {
+      newMessage.removeAttribute('id');
+    }
+  }
 }
 
 function gameLoop(myPlayer) {
   fetch("choices.json").then((response) => {
     response.json().then((data => {
       function progressStory(choice) {
-        if (choice.leftNext == "") {
-          endGame();
-          return;
-        }
         function parseString(str) {
           str = str.replace("$species$", myPlayer.getSpecies());
           str = str.replace("$planet$", myPlayer.getPlanet());
@@ -206,6 +241,12 @@ function gameLoop(myPlayer) {
         const rightButton = document.getElementById('goodChoice');
         const message = parseString(choice.friendMessage);
         addChatMessage(message, false);
+
+        if (choice.leftNext == "") {
+          endGame();
+          return;
+        }
+
         leftButton.onclick = function() {
           addChatMessage(choice.leftButton, true);
           progressStory(data[choice.leftNext]);
@@ -235,9 +276,6 @@ function endGame() {
   setTimeout(() => {stars3.parentNode.removeChild(stars3);}, 4000);
   setTimeout(() => {html.style.backgroundColor = "white";}, 5000);
 }
-
-// TODO: redesign the buttons to stay the same size regardless of Text
-// TODO: make the page view the new message that pops up
 
 // Global variables
 const character = function (myName, mySpecies, myPlanet, myVehicle, isPlayer = false) {
