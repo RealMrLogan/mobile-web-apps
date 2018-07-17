@@ -152,13 +152,6 @@ function removeModalAndCharCreation() {
   charCreation.parentNode.removeChild(charCreation);
 }
 
-// function populateMessageOptions() {
-//   messageOptions.push({message: "Oh, I don't think so!", type: "worst"}); // worst
-//   messageOptions.push({message: "What's in it for me?", type: "bad"}); // bad
-//   messageOptions.push({message: "What could go wrong?", type: "good"}); // good
-//   messageOptions.push({message: "Sure thing.", type: "best"}); // best
-// }
-
 function showOptions(leftMessage, rightMessage) {
   function getRandInt(min, max) {
     return Math.floor(Math.random() * (max - min)) + min;
@@ -180,6 +173,9 @@ function showOptions(leftMessage, rightMessage) {
 function typingMessage(letters) {
   letters += "00";
   console.log(`Do this for ${letters} milliseconds`);
+  setTimeout(() => {
+    console.log("Sent the message");
+  }, letters);
 }
 
 function addChatMessage(message, isPlayer = null) {
@@ -204,31 +200,42 @@ function addChatMessage(message, isPlayer = null) {
 }
 
 function gameLoop(myPlayer) {
-  // addChatMessage("Hello World", false);
-  // addChatMessage("this is a test to see how long the chat message can get test test sdf fg afg asd fasdf  dsfasdfasdfasdfasd asgasdfs", false);
-
   fetch("choices.json").then((response) => {
     response.json().then((data => {
       function progressStory(choice) {
+        function parseString(str) {
+          str = str.replace("$species$", myPlayer.getSpecies());
+          str = str.replace("$planet$", myPlayer.getPlanet());
+          str = str.replace("$vehicle$", myPlayer.getVehicle());
+          return str;
+        }
         console.log(choice);
 
         showOptions(choice.leftButton, choice.rightButton);
         const leftButton = document.getElementById('badChoice');
         const rightButton = document.getElementById('goodChoice');
-        addChatMessage(choice.friendMessage, false);
-        leftButton.addEventListener('click', function() {
+        const message = parseString(choice.friendMessage);
+        addChatMessage(message, false);
+        leftButton.onclick = function() {
           addChatMessage(choice.leftButton, true);
-          progressStory(data[choice].leftNext);
-        });
-        rightButton.addEventListener('click', function() {
+          console.log(data);
+          console.log("This is what it should get: "+choice.leftNext);
+          console.log(data[JSON.stringify(choice.leftNext)]);
+          progressStory(data[JSON.stringify(choice.leftNext)].leftNext);
+        };
+        rightButton.onclick = function() {
           addChatMessage(choice.rightButton, true);
           progressStory(data[choice].rightNext);
-        });
+        };
       }
       progressStory(data.choice2); // start the story
     }));
   });
 }
+
+// TODO: redesign the buttons to stay the same size regardless of Text
+// TODO: make the page view the new message that pops up
+// TODO: fix the choice.leftNext call; it's undefined
 
 // Global variables
 const character = function (myName, mySpecies, myPlanet, myVehicle, isPlayer = false) {
@@ -264,4 +271,3 @@ const character = function (myName, mySpecies, myPlanet, myVehicle, isPlayer = f
 var speciesList = []; // the array to hold all the species
 var planetsList = []; // the array to hold all the planets
 var vehiclesList = []; // the array to hold all the vehicles
-// var messageOptions = []; // an array that holds all the player's messages
