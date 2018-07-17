@@ -2,7 +2,7 @@
   "choice1": {
     "leftButton": "No, I'm good here",
     "rightButton": "Sure, why not?",
-    "friendMessage": "Wow, you were asleep for a while! <br /> It's about time you woke up, do you want to step outside with me?",
+    "friendMessage": "Wow $name$, you were asleep for a while! <br /> It's about time you woke up, do you want to step outside with me?",
     "leftNext": "choice5",
     "rightNext": "choice2"
   },
@@ -22,7 +22,7 @@
   },
   "choice4": {
     "leftButton": "No, I'm not up to it right now.",
-    "rightButton": "Your on!",
+    "rightButton": "You're on!",
     "friendMessage": "Hmm, you want to put your money where your mouth is? Let's race pink slips, my Speeder for your $vehicle$?",
     "leftNext": "end3",
     "rightNext": "end4"
@@ -38,28 +38,35 @@
     "leftButton": "I have a bad feeling about this...",
     "rightButton": "Play Again?",
     "friendMessage": "I forgot you $species$ are so humble. I'll catch you later.",
-    "leftNext": "",
+    "leftNext": "end5",
     "rightNext": "choice1"
   },
   "end2": {
     "leftButton": "I have a bad feeling about this...",
     "rightButton": "Play Again?",
     "friendMessage": "Nice, $species$ aren't so bad. Let's ride!",
-    "leftNext": "",
+    "leftNext": "end5",
     "rightNext": "choice1"
   },
   "end3": {
     "leftButton": "I have a bad feeling about this...",
     "rightButton": "Play Again?",
     "friendMessage": "Oh yeah, $species$ aren't very competitive. See you.",
-    "leftNext": "",
+    "leftNext": "end5",
     "rightNext": "choice1"
   },
   "end4": {
     "leftButton": "I have a bad feeling about this...",
     "rightButton": "Play Again?",
     "friendMessage": "Awesome, let's see how fast $species$ are!",
-    "leftNext": "",
+    "leftNext": "end5",
     "rightNext": "choice1"
+  },
+  "end5": {
+    "leftButton": "",
+    "rightButton": "",
+    "friendMessage": "Mwahaha",
+    "leftNext": "",
+    "rightNext": ""
   }
 }

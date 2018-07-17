@@ -1,3 +1,5 @@
+*{box-sizing: border-box;}
+
 html, body {
   margin: 0;
   padding: 0;
@@ -111,6 +113,7 @@ main-content {
   margin: 2.5%;
   height: 85%;
   padding: 5px;
+  line-height: 1;
   font-family: 'Cormorant', serif;
   font-size: 18px;
   background-color: black;
@@ -139,7 +142,7 @@ button:active {
   top: 0;
   height: 80%;
   width: 100%;
-  overflow: scroll
+  overflow: scroll;
 }
 
 #chatHistory {
@@ -195,7 +198,7 @@ button:active {
 /* For the stars */
 html {
   height: 100%;
-  background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
+  background-color: black;
   overflow: hidden;
 }
 

@@ -1,16 +1,15 @@
 /*jshint esversion: 6 */
 window.onload = function() {
-  // startLoadingScreen();
-  //
-  // requestSpecies(1);
-  // requestPlanets(1);
-  // requestVehicles(1);
+  startLoadingScreen();
+
+  requestSpecies(1);
+  requestPlanets(1);
+  requestVehicles(1);
 };
 
 // TODO: The request functions work the same, consider redesiging to properly use a promise
 
 function requestSpecies(pageNumber) { // recursive function so that it is not dependent on hard coding how many pages
-  console.log('requesting the species page '+pageNumber);
   const url = 'https://swapi.co/api/species/?page=' + pageNumber; // sets up to iterate through the pages
   fetch(url).then((response) => {
     response.json().then((data) => {
@@ -20,7 +19,6 @@ function requestSpecies(pageNumber) { // recursive function so that it is not de
       if (data.next) {
         requestSpecies(pageNumber+1); // recursivly call the function with the new page
       } else {
-        console.log('All done requesting species');
         loadSpeciesDropdown();
         finishLoadingScreen();
       }
@@ -29,7 +27,6 @@ function requestSpecies(pageNumber) { // recursive function so that it is not de
 }
 
 function requestPlanets(pageNumber) { // recursive function so that it is not dependent on hard coding how many pages
-  console.log('requesting the planets page '+pageNumber);
   const url = 'https://swapi.co/api/planets/?page=' + pageNumber; // sets up to iterate through the pages
   fetch(url).then((response) => {
     response.json().then((data) => {
@@ -39,7 +36,6 @@ function requestPlanets(pageNumber) { // recursive function so that it is not de
       if (data.next) {
         requestPlanets(pageNumber+1); // recursivly call the function with the new page
       } else {
-        console.log('All done requesting planets');
         loadPlanetsDropdown();
         finishLoadingScreen();
       }
@@ -48,7 +44,6 @@ function requestPlanets(pageNumber) { // recursive function so that it is not de
 }
 
 function requestVehicles(pageNumber) { // recursive function so that it is not dependent on hard coding how many pages
-  console.log('requesting the vehicles page '+pageNumber);
   const url = 'https://swapi.co/api/vehicles/?page=' + pageNumber; // sets up to iterate through the pages
   fetch(url).then((response) => {
     response.json().then((data) => {
@@ -58,7 +53,6 @@ function requestVehicles(pageNumber) { // recursive function so that it is not d
       if (data.next) {
         requestVehicles(pageNumber+1); // recursivly call the function with the new page
       } else {
-        console.log('All done requesting vehicles');
         loadVehiclesDropdown();
         finishLoadingScreen();
       }
@@ -67,8 +61,6 @@ function requestVehicles(pageNumber) { // recursive function so that it is not d
 }
 
 function startLoadingScreen() {
-  console.log('--Started the loading screen--');
-
   const modal = document.getElementById('myModal');
   const charCreation = document.getElementById('charCreation');
   modal.style.display = "block";
@@ -81,7 +73,6 @@ function startLoadingScreen() {
 function finishLoadingScreen() { // redefines itself once
   finishLoadingScreen = function() { // twice
     finishLoadingScreen = function() { // and a third time
-      console.log('--The loading screen is done--');
       const modal = document.getElementById('myModal');
       const charCreation = document.getElementById('charCreation');
       modal.style.display = "none";
@@ -91,7 +82,6 @@ function finishLoadingScreen() { // redefines itself once
 }
 
 function loadSpeciesDropdown() {
-  console.log('loading the species dropdown');
   for (let i = 0; i < speciesList.length; i++) {
     let speciesName = document.createElement('option');
     speciesName.innerHTML = speciesList[i].name;
@@ -100,7 +90,6 @@ function loadSpeciesDropdown() {
 }
 
 function loadPlanetsDropdown() {
-  console.log('loading the planets dropdown');
   for (let i = 0; i < planetsList.length; i++) {
     let planetsName = document.createElement('option');
     planetsName.innerHTML = planetsList[i].name;
@@ -109,7 +98,6 @@ function loadPlanetsDropdown() {
 }
 
 function loadVehiclesDropdown() {
-  console.log('loading the vehicles dropdown');
   for (let i = 0; i < vehiclesList.length; i++) {
     let vehiclesName = document.createElement('option');
     vehiclesName.innerHTML = vehiclesList[i].name;
@@ -118,24 +106,15 @@ function loadVehiclesDropdown() {
 }
 
 document.getElementById('startGame').onclick = function() { // initialize the game
-  console.log("started the game");
   const name = document.getElementById('name').value;
   const species = document.getElementById('speciesDropdown').options[speciesDropdown.selectedIndex].text;
   const planet = document.getElementById('planetsDropdown').options[planetsDropdown.selectedIndex].text;
   const vehicle = document.getElementById('vehiclesDropdown').options[vehiclesDropdown.selectedIndex].text;
   const myPlayer = character(name, species, planet, vehicle, true);
-  console.log(
-    `
-    Name: ${myPlayer.getName()}
-    Species: ${myPlayer.getSpecies()}
-    Planet: ${myPlayer.getPlanet()}
-    Vehicle: ${myPlayer.getVehicle()}
-    IsPlayer: ${myPlayer.isPlayer()}
-    `
-  );
   const charCreation = document.getElementById('charCreation');
   charCreation.style.right = "-100%";
   // TODO: make the transition slide to the right
+
   // clean up the html from unused elements
   setTimeout(removeModalAndCharCreation, 1000);
   const main = document.getElementsByTagName('main')[0];
@@ -153,6 +132,14 @@ function removeModalAndCharCreation() {
 }
 
 function showOptions(leftMessage, rightMessage) {
+  const oldleftButton = document.getElementById('badChoice');
+  if (oldleftButton) {
+    oldleftButton.parentNode.removeChild(oldleftButton);
+  }
+  const oldrightButton = document.getElementById('goodChoice');
+  if (oldrightButton) {
+    oldrightButton.parentNode.removeChild(oldrightButton);
+  }
   function getRandInt(min, max) {
     return Math.floor(Math.random() * (max - min)) + min;
   }
@@ -180,7 +167,6 @@ function typingMessage(letters) {
 
 function addChatMessage(message, isPlayer = null) {
   typingMessage(message.length);
-  console.log("adding a message: "+message);
   const div = document.createElement('div');
   div.className = "chat";
   const pMessage = document.createElement('p');
@@ -203,13 +189,17 @@ function gameLoop(myPlayer) {
   fetch("choices.json").then((response) => {
     response.json().then((data => {
       function progressStory(choice) {
+        if (choice.leftNext == "") {
+          endGame();
+          return;
+        }
         function parseString(str) {
           str = str.replace("$species$", myPlayer.getSpecies());
           str = str.replace("$planet$", myPlayer.getPlanet());
           str = str.replace("$vehicle$", myPlayer.getVehicle());
+          str = str.replace("$name$", myPlayer.getName());
           return str;
         }
-        console.log(choice);
 
         showOptions(choice.leftButton, choice.rightButton);
         const leftButton = document.getElementById('badChoice');
@@ -218,24 +208,36 @@ function gameLoop(myPlayer) {
         addChatMessage(message, false);
         leftButton.onclick = function() {
           addChatMessage(choice.leftButton, true);
-          console.log(data);
-          console.log("This is what it should get: "+choice.leftNext);
-          console.log(data[JSON.stringify(choice.leftNext)]);
-          progressStory(data[JSON.stringify(choice.leftNext)].leftNext);
+          progressStory(data[choice.leftNext]);
         };
         rightButton.onclick = function() {
           addChatMessage(choice.rightButton, true);
-          progressStory(data[choice].rightNext);
+          progressStory(data[choice.rightNext]);
         };
       }
-      progressStory(data.choice2); // start the story
+      progressStory(data.choice1); // start the story
     }));
   });
 }
 
+function endGame() {
+  const options = document.getElementById('options');
+  const main = document.getElementsByTagName('main')[0];
+  const stars1 = document.getElementById('stars');
+  const stars2 = document.getElementById('stars2');
+  const stars3 = document.getElementById('stars3');
+  const html = document.getElementsByTagName('html')[0];
+
+  options.parentNode.removeChild(options);
+  setTimeout(() => {main.parentNode.removeChild(main);}, 1000);
+  setTimeout(() => {stars1.parentNode.removeChild(stars1);}, 2000);
+  setTimeout(() => {stars2.parentNode.removeChild(stars2);}, 3000);
+  setTimeout(() => {stars3.parentNode.removeChild(stars3);}, 4000);
+  setTimeout(() => {html.style.backgroundColor = "white";}, 5000);
+}
+
 // TODO: redesign the buttons to stay the same size regardless of Text
 // TODO: make the page view the new message that pops up
-// TODO: fix the choice.leftNext call; it's undefined
 
 // Global variables
 const character = function (myName, mySpecies, myPlanet, myVehicle, isPlayer = false) {
