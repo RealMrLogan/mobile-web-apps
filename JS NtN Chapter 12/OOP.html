@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en-US">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>OOP</title>
+  <script>
+    //object literal
+    const dice = {
+      sides: 6,
+      roll() { return Math.floor(this.sides * Math.random() + 1); }
+    }
+    // object constructor
+    const Dice = function(sides=6){
+      this.sides = sides;
+      this.roll = function() { return Math.floor(this.sides * Math.random() + 1); }
+    }
+    const dice = new Dice();
+
+    // using a class declaration
+    class Dice {
+      constructor(sides=6) {
+        this.sides = sides;
+      }
+      roll() { return Math.floor(this.sides * Math.random() + 1); }
+      static description() { return 'A way of choosing random numbers'; }
+    }
+    const blueDice = new Dice(20);
+    // call the constructor
+    const greenDice = new blueDice.constructor(10);
+    Dice.description(); // A way of choosing random numbers
+    blueDice.description(); // TypeError
+  </script>
+  <style>
+  </style>
+</head>
+
+<body>
+  <p>Hello</p>
+</body>
+
+</html>
