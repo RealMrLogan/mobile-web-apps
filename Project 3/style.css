@@ -85,6 +85,14 @@ main-content {
   transition: 1s;
 }
 
+.slide {
+  height: 100%;
+  z-index: 1;
+  background-color: black; /* Black*/
+  overflow-y: hidden; /* Disable horizontal scroll */
+  transition: 0.5s; /* 0.5 second transition effect to slide in the slide */
+}
+
 .creationTitles {
   text-align: center;
   padding-top: 2%;

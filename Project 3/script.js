@@ -1,10 +1,10 @@
 /*jshint esversion: 6 */
 window.onload = function() {
-  startLoadingScreen();
-
-  requestSpecies(1);
-  requestPlanets(1);
-  requestVehicles(1);
+  // startLoadingScreen();
+  //
+  // requestSpecies(1);
+  // requestPlanets(1);
+  // requestVehicles(1);
 };
 
 // TODO: The request functions work the same, consider redesiging to properly use a promise
@@ -139,8 +139,9 @@ document.getElementById('startGame').onclick = function() { // initialize the ga
   const vehicle = document.getElementById('vehiclesDropdown').options[vehiclesDropdown.selectedIndex].text;
   const myPlayer = character(name, species, planet, vehicle, true);
   const charCreation = document.getElementById('charCreation');
-  charCreation.style.right = "-100%";
-  // TODO: make the transition slide to the right
+
+  // make the element slide to the top
+  charCreation.style.height = 0;
 
   // clean up the html from unused elements
   setTimeout(removeModalAndCharCreation, 1000);
@@ -184,13 +185,12 @@ function showOptions(leftMessage, rightMessage) {
   section.appendChild(rightButton);
 }
 
-function addChatMessage(message, isPlayer = null) {
+function addChatMessage(message, id, isPlayer = null) {
   const div = document.createElement('div');
   div.className = "chat";
   const pMessage = document.createElement('p');
   pMessage.className = "message";
-  pMessage.innerHTML = message;
-  // pMessage.id = "newMessage";
+  pMessage.id = id;
   if (isPlayer != null) {
     if (isPlayer == true) {
       div.className = "chat playerChat";
@@ -206,13 +206,12 @@ function addChatMessage(message, isPlayer = null) {
   pos.scrollTop = pos.scrollHeight; // since this number will always be greater, it sets it to the max
 
   let i = 0;
-  let speed = 50;
-  // typingMessage();
+  const speed = 50;
+  typingMessage();
   function typingMessage() {
-    const newMessage = document.getElementById('newMessage');
+    const newMessage = document.getElementById(id);
 
     if (i < message.length) {
-      console.log("typing the message at: "+i);
       newMessage.innerHTML += message.charAt(i);
       i++;
       const pos = document.getElementById('chatBox');
@@ -227,7 +226,7 @@ function addChatMessage(message, isPlayer = null) {
 function gameLoop(myPlayer) {
   fetch("choices.json").then((response) => {
     response.json().then((data => {
-      function progressStory(choice) {
+      function progressStory(choice, prevMessageLength) {
         function parseString(str) {
           str = str.replace("$species$", myPlayer.getSpecies());
           str = str.replace("$planet$", myPlayer.getPlanet());
@@ -240,23 +239,25 @@ function gameLoop(myPlayer) {
         const leftButton = document.getElementById('badChoice');
         const rightButton = document.getElementById('goodChoice');
         const message = parseString(choice.friendMessage);
-        addChatMessage(message, false);
+
+        prevMessageLength *= 70; // determines how long it takes to type the last message plus a little wait time between messages
+        setTimeout(function() {addChatMessage(message, "friend", false);}, prevMessageLength);
 
         if (choice.leftNext == "") {
-          endGame();
+          setTimeout(endGame, 2500);
           return;
         }
 
         leftButton.onclick = function() {
-          addChatMessage(choice.leftButton, true);
-          progressStory(data[choice.leftNext]);
+          addChatMessage(choice.leftButton, "myPlayer", true);
+          progressStory(data[choice.leftNext], choice.leftButton.length);
         };
         rightButton.onclick = function() {
-          addChatMessage(choice.rightButton, true);
-          progressStory(data[choice.rightNext]);
+          addChatMessage(choice.rightButton, "myPlayer", true);
+          progressStory(data[choice.rightNext], choice.leftButton.length);
         };
       }
-      progressStory(data.choice1); // start the story
+      progressStory(data.choice1, 15); // start the story
     }));
   });
 }
