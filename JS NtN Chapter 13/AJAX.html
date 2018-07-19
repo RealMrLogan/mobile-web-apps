@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en-US">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AJAX</title>
+  <script>
+    // fetch API
+    fetch('https://example.com/data')
+    .then( // code that handles the response )
+    .catch( // code that runs if the server returns an error )
+
+    // what to do with errors
+    fetch(url)
+    .then((response) => {
+      if(response.ok) { return response; }
+      throw Error(response.statusText);
+      }) .then( response => // do something with response )
+      .catch( error => console.log('There was an error!')
+    )
+
+    response.text() // turns text into a JS string
+    response.blob() // turns data into an object
+    response.json() // turns the JSON data into a JS object
+
+    // creating a response object
+    const response = new Response( 'Hello!', {
+      ok: true,
+      status: 200,
+      statusText: 'OK',
+      type: 'cors',
+      url: '/api'
+    });
+
+    // Headers
+    const headers = new Headers();
+    // has() – Can be used to check if the headers object contains the header provided as an argument.
+    // get() - Returns the value of the header provided as an argument
+    // set() – Can be used to set a value of an already existing header, or create a new header with the value provided as an argument if it does not already exist.
+    // append() – Adds a new header to the headers object.
+    // delete() – Removes the header provided as an argument.
+    // keys(), values() and entries() – Iterators that can be used to iterate over the headers key, values or entries (key and value pairs).
+
+    // an example
+    textButton.addEventListener('click', () => {
+      fetch(textURL)
+      .then( response => {
+        outputDiv.innerHTML = 'Waiting for response...';
+        if(response.ok) { return response; }
+        throw Error(response.statusText);
+      })
+      .then( response => response.text() )
+      .then( text => outputDiv.innerText = text )
+      .catch( error => console.log('There was an error:', ➥ error))
+    },false);
+  </script>
+  <style>
+  </style>
+</head>
+
+<body>
+  <p>Hello</p>
+</body>
+
+</html>

@@ -31,6 +31,18 @@
     const greenDice = new blueDice.constructor(10);
     Dice.description(); // A way of choosing random numbers
     blueDice.description(); // TypeError
+
+    class Turtle {
+      constructor(name,color) {
+        this.name = name;
+        let _color = color; // because it's declared here, it is private
+        this.setColor = color => {
+          return _color = color;
+        }
+        this.getColor = () => _color;
+      }
+    }
+    
   </script>
   <style>
   </style>
