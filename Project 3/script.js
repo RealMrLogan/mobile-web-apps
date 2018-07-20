@@ -1,10 +1,10 @@
 /*jshint esversion: 6 */
 window.onload = function() {
-  // startLoadingScreen();
-  //
-  // requestSpecies(1);
-  // requestPlanets(1);
-  // requestVehicles(1);
+  startLoadingScreen();
+
+  requestSpecies(1);
+  requestPlanets(1);
+  requestVehicles(1);
 };
 
 // TODO: The request functions work the same, consider redesiging to properly use a promise
