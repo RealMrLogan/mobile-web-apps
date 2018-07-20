@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en-US">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Video and Audio</title>
+  <script>
+    var videoEl = document.getElementsByTagName('video')[0],
+      playPauseBtn = document.getElementById('playPause'),
+      vidControls = document.getElementById('controls'),
+      muteBtn = document.getElementById('muteUnmute'),
+      timeHolder = document.getElementById('timer');
+
+    // grab the video element
+    playPauseBtn.addEventListener('click', function () {
+      if (videoEl.paused) {
+        videoEl.play();
+      } else {
+        videoEl.pause();
+      }
+    }, false);
+
+    // playing and pausing
+    videoEl.addEventListener('play', function () {
+      playPauseBtn.classList.add('playing');
+    }, false);
+    videoEl.addEventListener('pause', function () {
+      playPauseBtn.classList.remove('playing');
+    }, false);
+
+    // muting
+    muteBtn.addEventListener('click', function () {
+      if (videoEl.muted) {
+        videoEl.muted = false;
+      } else {
+        videoEl.muted = true;
+      }
+    }, false);
+    videoEl.addEventListener('volumechange', function () {
+      if (videoEl.muted) {    muteBtn.classList.add('muted');
+      } else {
+        muteBtn.classList.remove('muted');
+      }
+    }, false);
+
+    // when the video ends
+    videoEl.addEventListener('ended', function () {
+      videoEl.currentTime = 0;
+    }, false);
+
+    // updating the time
+    videoEl.addEventListener('timeupdate', function () {
+      timeHolder.innerHTML = secondsToTime(videoEl.currentTime);
+    }, false);
+  </script>
+  <style>
+  </style>
+</head>
+
+<body>
+  <video width="375" height="280" controls autoplay poster="teaser.jpg">
+    <source src="example.mp4" type="video/mp4">
+    <source src="example.webm" type="video/webm">
+    <source src="example.ogv" type="video/ogg">
+
+    <track kind="subtitles" src="example.en.vtt" srclang="en" label="English" default>
+    <track kind="captions" src="example.en.hoh.vtt" srclang="en" label="English for the Hard of Hearing">
+    <track kind="subtitles" src="example.de.vtt" srclang="de" lang="de" label="Deutsch">
+  </video>
+  <div id="controls" class="hidden">
+    <a id="playPause">Play/Pause</a>
+    <span id="timer">00:00</span>
+    <a id="muteUnmute">Mute/Unmute</a>
+  </div>
+</body>
+
+</html>

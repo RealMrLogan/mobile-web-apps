@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en-US">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Transitions and Translations</title>
+  <script>
+  </script>
+  <style>
+    p {
+      transform: translate(45px, -45px);
+      -webkit-transform: translate(45px,-45px); /* iOS8, Android 4.4.3, BB10 */
+      -ms-transform: translate(45px,-45px); /* IE9 only */
+      transform: translate(45px,-45px);
+
+      transform: translateX(45px);
+      transform: translateY(-30px);
+
+      transform: scale(1.5, 0.25);
+
+      transform: skew(15deg, 4deg);
+      transform-origin: 0 0;
+      transition: transform 0.2s ease-out 50ms, color 0.1s linear 50ms;
+    }
+
+    /* shorthand */ .concise {
+      animation: 300ms ease-in alternate 5s backwards appearDisappear;
+    }
+
+    .ad-ad2 h1:hover span {
+      transition-property: transform;
+      transition-timing-function: ease-out;
+      color: #484848;
+      transform: rotate(10deg) translateX(40px) scale(1.5);
+    }
+
+    .ad-ad2 h1 span {
+      transition: transform 0.2s ease-out 50ms;
+    }
+
+    @-webkit-keyframes myAnimation {   /* put animation keyframes here */ } @keyframes myAnimation {   /* put animation keyframes here */ }
+  </style>
+</head>
+
+<body>
+  <p>Hello</p>
+  <h1>Put your <span>dukes</span> up, sire</h1>
+</body>
+
+</html>
